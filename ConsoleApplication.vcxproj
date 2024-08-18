@@ -75,17 +75,32 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
-    <MultiProcNumber>3</MultiProcNumber>
+    <MultiProcNumber>1</MultiProcNumber>
+    <IncludePath>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\src;C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
-    <MultiProcNumber>3</MultiProcNumber>
+    <MultiProcNumber>1</MultiProcNumber>
+    <IncludePath>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\src;C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <MultiProcNumber>3</MultiProcNumber>
-    <IncludePath>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\src\RealmQQ\twobot\include;$(IncludePath)</IncludePath>
+    <MultiProcNumber>1</MultiProcNumber>
+    <IncludePath>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\src;C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
-    <MultiProcNumber>3</MultiProcNumber>
+    <MultiProcNumber>1</MultiProcNumber>
+    <IncludePath>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\src;C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <IncludePath>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\src;C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+    <IncludePath>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\src;C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\src;C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <IncludePath>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\src;C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include</IncludePath>
   </PropertyGroup>
   <ItemGroup>
     <None Include=".gitattributes" />
@@ -95,12 +110,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
-    <ClCompile Include="src\base\Config.cpp" />
-    <ClCompile Include="src\start.cpp" />
+    <ClCompile Include="src\ConsoleRealm.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Application.h" />
-    <ClInclude Include="src\base\Config.h" />
+    <ClInclude Include="src\ConsoleRealm.h" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
