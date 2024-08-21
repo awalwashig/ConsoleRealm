@@ -1,15 +1,8 @@
 #include <dpp/dpp.h>
+#include <nlohmann/json.hpp>
+#include <httplib.h>
 
 namespace Realm {
-
-	class discord {
-
-	};
-
-	class qq {
-
-	};
-
 	class ConsoleRealm {
 	public:
 		ConsoleRealm()
@@ -34,5 +27,13 @@ namespace Realm {
 	private:
 		//储存的实例
 		std::vector<std::string, std::pair<std::unique_ptr<discord>, std::unique_ptr<qq>>> obj_v;
+	};
+
+	class discord {
+
+	};
+
+	class qq {
+
 	};
 }
