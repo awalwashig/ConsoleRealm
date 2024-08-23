@@ -5,7 +5,7 @@
 namespace Realm {
 	class ConsoleRealm {
 	public:
-		ConsoleRealm()
+		explicit ConsoleRealm()
 		{
 
 		}
@@ -15,10 +15,10 @@ namespace Realm {
 		void add_instance(std::unique_ptr<qq>&& obj);
 		//写一些主要管理操作
 		//....
-		
+
 		//扩展功能
 		virtual void EXoperation();
-		void move_ptr();
+		int move_ptr();
 
 	private:
 		//现在要调用的实例
@@ -27,6 +27,10 @@ namespace Realm {
 	private:
 		//储存的实例
 		std::vector<std::string, std::pair<std::unique_ptr<discord>, std::unique_ptr<qq>>> obj_v;
+
+		class EXoperation {
+
+		};
 	};
 
 	class discord {
