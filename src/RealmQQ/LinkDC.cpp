@@ -28,6 +28,12 @@ namespace Realm::QQ {
 			//debug
 			std::cout << msg.raw_msg << std::endl;
 
+			uint64_t Group_id = msg.raw_msg["group_id"];
+			for (nlohmann::json tmp : msg.raw_msg["message"]) {
+				if (tmp["type"] == "image")
+					RealmQQ::GetRealmBot()->getApiSet().getImage(Group_id, tmp["data"]["file"]);
+			}
+
 			(*Send)(msg.raw_msg);
 			});
 

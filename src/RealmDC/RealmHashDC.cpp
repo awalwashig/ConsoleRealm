@@ -12,6 +12,7 @@ namespace Realm {
 
 		ImageHash.reset(new std::unordered_map<dpp::snowflake, std::string>());
 
+
 		for (int i = 0; i < (*Base::RealmConfig::GetJsonConfig())["RealmDC"]["Link"].size(); ++i) {
 			int QQtmp = (*Base::RealmConfig::GetJsonConfig())["RealmQQ"]["Link"][i];
 			dpp::snowflake DCtmp = (*Base::RealmConfig::GetJsonConfig())["RealmDC"]["Link"][i];

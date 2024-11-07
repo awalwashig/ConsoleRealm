@@ -26,10 +26,12 @@ namespace Realm {
 	void Slashcommand::LoadSlashcommand() {
 		//写入命令
 		RealmBot->on_ready([this](const dpp::ready_t event) {
-			if (dpp::run_once<struct register_bot_commands>()) {
-				RealmBot->global_command_create(dpp::slashcommand("Ping", "Test slashcommand", RealmBot->me.id));
-				RealmBot->global_command_create(dpp::slashcommand("Test", "Test slashcommand", RealmBot->me.id));
-			}
+
+			RealmBot->global_command_create(dpp::slashcommand("Ping", "Test slashcommand", RealmBot->me.id));
+			RealmBot->global_command_create(dpp::slashcommand("Test", "Test slashcommand", RealmBot->me.id));
+			RealmBot->global_command_create(dpp::slashcommand("kick", "这个命令会踢出服务器全部人！！！", RealmBot->me.id));
+			RealmBot->global_command_create(dpp::slashcommand("ping", "ping?", RealmBot->me.id));
+
 			});
 	}
 
@@ -52,6 +54,12 @@ namespace Realm {
 		//Funtion
 		RealmHashDC::AddFuntionHash("Ping", [](dpp::slashcommand_t* event)->void {
 			event->reply("Pong~");
+			});
+		RealmHashDC::AddFuntionHash("kick", [](dpp::slashcommand_t* event)->void {
+			event->reply("https://images-ext-1.discordapp.net/external/vT3sHp6CIF4D7JMwNv8NEpmuGxibgAbTTwjqHezfhVw/https/media.tenor.com/giffyl_96U4AAAPo/rickroll-meme.mp4");
+			});		
+		RealmHashDC::AddFuntionHash("ping", [](dpp::slashcommand_t* event)->void {
+
 			});
 	}
 
