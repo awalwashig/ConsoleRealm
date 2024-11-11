@@ -15,10 +15,10 @@ namespace Realm {
 		// system("chcp 65001 && cls");
 
 		RealmBot = BotInstance::createInstance(Config{
-			"192.168.1.24",
+			"172.22.176.1",
 			3001,
 			5752,
-			std::nullopt
+			"114514"
 			});
 	}
 	//加载

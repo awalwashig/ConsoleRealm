@@ -25,15 +25,16 @@ namespace Realm::QQ {
 
 	void LinkDC::OutputMsg(void(*Send)(nlohmann::json obj)) {
 		RealmQQ::GetRealmBot()->onEvent<twobot::Event::GroupMsg>([Send](const twobot::Event::GroupMsg& msg) {
-			//debug
-			std::cout << msg.raw_msg << std::endl;
+			//debug 
+			std::cout << msg.raw_msg << std::endl; 
 
 			uint64_t Group_id = msg.raw_msg["group_id"];
 			for (nlohmann::json tmp : msg.raw_msg["message"]) {
 				if (tmp["type"] == "image")
-					RealmQQ::GetRealmBot()->getApiSet().getImage(Group_id, tmp["data"]["file"]);
+					std::cout << "\n ------------" << RealmQQ::GetRealmBot()->getApiSet().getImage(Group_id, tmp["data"]["file"]).second.is_string() << std::endl;
+					;
 			}
-
+			 
 			(*Send)(msg.raw_msg);
 			});
 

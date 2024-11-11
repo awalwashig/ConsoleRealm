@@ -80,7 +80,7 @@ namespace Realm::DC {
 	//输出QQ
 	void LinkQQ::OutputMsg(void(*Send)(nlohmann::json obj)) {
 		RealmDC::GetRealmBot()->on_message_create([Send](const dpp::message_create_t& event) {
-			if (RealmHashQQ::GetGroup(event.msg.channel_id) != NULL)
+			if (RealmHashQQ::GetGroup(event.msg.channel_id) == NULL)
 				return;
 
 			if (event.msg.author.id == RealmDC::GetRealmBot()->me.id)
