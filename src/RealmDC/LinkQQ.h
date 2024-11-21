@@ -13,7 +13,10 @@ namespace Realm::DC {
 		static void InputMsg(nlohmann::json obj);
 		static void OutputMsg(void(*Send)(nlohmann::json obj));
 
-		static void InputRecall(nlohmann::json obj);
+		static void InputRecall(nlohmann::json& obj);
 		static void OutRecall(void(*Send)(nlohmann::json obj));
+
+	private:
+		static std::string GetImageURL(nlohmann::json& Obj);
 	};
 }
