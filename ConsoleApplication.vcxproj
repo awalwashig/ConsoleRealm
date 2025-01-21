@@ -78,7 +78,7 @@
     <MultiProcNumber>3</MultiProcNumber>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
-    <MultiProcNumber>1</MultiProcNumber>
+    <MultiProcNumber>12</MultiProcNumber>
     <IncludePath>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\src\RealmQQ\twobot\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

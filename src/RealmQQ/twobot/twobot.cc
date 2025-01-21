@@ -1,5 +1,5 @@
 ﻿#include "twobot.hh"
-#include <nlohmann/json.hpp>
+#include <dpp/dpp.h>
 #include <cstdint>
 #include <exception>
 #include <iostream>
@@ -10,7 +10,7 @@
 #endif
 
 #include <httplib.h>
-#include <nlohmann/json.hpp>
+#include <dpp/dpp.h>
 #include <brynet/base/Packet.hpp>
 #include <brynet/net/http/WebSocketFormat.hpp>
 #include <brynet/net/wrapper/HttpServiceBuilder.hpp>

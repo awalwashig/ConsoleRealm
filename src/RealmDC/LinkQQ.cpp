@@ -4,7 +4,7 @@
 #include "RealmHashDC.h"
 #include "../RealmQQ/RealmHashQQ.h"
 #include <stdlib.h>
-
+#include <regex>
 namespace Realm::DC {
 	void LinkQQ::InitLink() {
 		QQ::LinkDC Obj;
@@ -29,9 +29,9 @@ namespace Realm::DC {
 			return dpp::utility::log_error();
 			});
 
-		RealmDC::GetRealmBot()->message_create(dpp::message(GetImageURL(obj)).set_channel_id(RealmHashDC::GetChannel(obj["group_id"])), [](const dpp::confirmation_callback_t& callback)->dpp::command_completion_event_t {
-			return dpp::utility::log_error();
-			});
+		//RealmDC::GetRealmBot()->message_create(dpp::message(GetImageURL(obj)).set_channel_id(RealmHashDC::GetChannel(obj["group_id"])), [](const dpp::confirmation_callback_t& callback)->dpp::command_completion_event_t {
+		//	return dpp::utility::log_error();
+		//	});
 	}
 
 	//输出QQ

@@ -3,7 +3,6 @@
 
 #include "RealmHashQQ.h"
 #include <iostream>
-#include <sstream>
 #include <string>
 
 namespace Realm::QQ {

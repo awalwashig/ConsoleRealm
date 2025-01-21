@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include <nlohmann/json.hpp>
+#include <dpp/dpp.h>
 
 namespace Base {
 	class RealmConfig {
