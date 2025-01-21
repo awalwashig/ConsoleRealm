@@ -108,13 +108,6 @@
     <None Include="date\config.json" />
     <None Include="README.md" />
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\Application.cpp" />
-    <ClCompile Include="src\ConsoleRealm.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\ConsoleRealm.h" />
-  </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
       <CppLanguageStandard>c++20</CppLanguageStandard>
