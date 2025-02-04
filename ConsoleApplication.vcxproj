@@ -108,6 +108,20 @@
     <None Include="date\config.json" />
     <None Include="README.md" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\QQ\QQLink.h" />
+    <ClInclude Include="include\Realm\Application.h" />
+    <ClInclude Include="include\Realm\common.h" />
+    <ClInclude Include="include\Realm\Realm.h" />
+    <ClInclude Include="include\QQ\QQAPI.h" />
+    <ClInclude Include="src\test\test.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Realm\Realm.cpp" />
+    <ClCompile Include="src\Realm\Application.cpp" />
+    <ClCompile Include="src\QQ\QQAPI.cpp" />
+    <ClCompile Include="src\test\test.cpp" />
+  </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
       <CppLanguageStandard>c++20</CppLanguageStandard>
