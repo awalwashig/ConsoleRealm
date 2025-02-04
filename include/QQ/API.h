@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include <QQ/QQLink.h>
+#include <QQ/Link.h>
 
 namespace QQ {
 
