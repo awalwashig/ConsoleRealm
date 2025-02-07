@@ -16,6 +16,11 @@ public:
 	std::variant<websocketpp::client<websocketpp::config::asio_client>> client;	
 };
 
+class client {
+public:
 
 
+private:
+	websocketpp::client<websocketpp::config::asio_client>& client;
+};
 }

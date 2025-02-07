@@ -109,7 +109,7 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\QQ\Link.h" />
+    <ClInclude Include="include\QQ\Web.h" />
     <ClInclude Include="include\Realm\Application.h" />
     <ClInclude Include="include\Realm\common.h" />
     <ClInclude Include="include\Realm\Realm.h" />
@@ -118,6 +118,7 @@
     <ClInclude Include="src\test\test.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\QQ\Web.cpp" />
     <ClCompile Include="src\Realm\Realm.cpp" />
     <ClCompile Include="src\Realm\Application.cpp" />
     <ClCompile Include="src\QQ\API.cpp" />

@@ -1,7 +1,7 @@
 #include "test.hpp"
 #include <dpp/cluster.h>
-int main(int argc, char* argv[]) {
-	using namespace Realm::test;
+#include <Realm/Realm.h>
 
-	dpp::cluster a("");
+int main(int argc, char* argv[]) {
+
 }

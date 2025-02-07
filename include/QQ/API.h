@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include <QQ/Link.h>
+#include <QQ/Web.h>
 
 namespace QQ {
 
@@ -10,7 +10,7 @@ public:
 
 	API(std::string& ip);
 
-	API* set_token();
+	API* set_token(std::string& param);
 
 	API* on_message();
 	
