@@ -79,12 +79,14 @@
     <IncludePath>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\src;C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
-    <MultiProcNumber>9</MultiProcNumber>
+    <MultiProcNumber>1</MultiProcNumber>
     <IncludePath>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\src;C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <MultiProcNumber>1</MultiProcNumber>
+    <MultiProcNumber>9</MultiProcNumber>
     <IncludePath>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\src;C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include</IncludePath>
+    <LibraryPath>
+    </LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <MultiProcNumber>1</MultiProcNumber>
@@ -112,13 +114,13 @@
     <ClInclude Include="include\QQ\Web.h" />
     <ClInclude Include="include\Realm\Application.h" />
     <ClInclude Include="include\Realm\common.h" />
-    <ClInclude Include="include\Realm\Realm.h" />
+    <ClInclude Include="include\Realm\contact.h" />
     <ClInclude Include="include\QQ\API.h" />
     <ClInclude Include="include\QQ\user.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\QQ\Web.cpp" />
-    <ClCompile Include="src\Realm\Realm.cpp" />
+    <ClCompile Include="src\Realm\contact.cpp" />
     <ClCompile Include="src\Realm\Application.cpp" />
     <ClCompile Include="src\QQ\API.cpp" />
     <ClCompile Include="src\test\test.cpp" />
@@ -143,6 +145,7 @@
     <ClCompile>
       <CppLanguageStandard>c++20</CppLanguageStandard>
       <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>DPP_CORO</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <LibraryDependencies>dpp;jsoncpp;pthread;curl</LibraryDependencies>

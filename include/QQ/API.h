@@ -10,11 +10,10 @@ public:
 
 	API(std::string& ip);
 
-	API* set_token(std::string& param);
-
-	API* on_message();
-	
 	~API();
+
+public:
+	API* on_message();
 private:
 	std::string token;
 	
