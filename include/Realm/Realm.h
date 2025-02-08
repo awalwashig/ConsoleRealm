@@ -15,21 +15,24 @@ using json = nlohmann::json;
 template<typename ...Types>
 class Realm {
 public:
-
-	
-public:
-	typedef std::tuple<Types...> APIs;
+	//类型
+	using APIs = std::tuple<Types...>;
 
 public:
-	Realm(APIs test);
+
+
+public:
+	Realm(Types... param) : contact(std::forward<Types>(param)...) {
+		//(std::cout << ... << (std::get<Types>(param))) << std::endl;
+	}
 
 	// 实例不能复制
 	Realm(const Realm&) = delete;
 	Realm(const Realm&&) = delete;
 	Realm operator=(const Realm&) = delete;
 	Realm operator=(const Realm&&) = delete;
-private:
-	APIs ooo;
+public:
+	APIs contact;
 };
 
 }//namespace Realm

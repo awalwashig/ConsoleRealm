@@ -79,7 +79,7 @@
     <IncludePath>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\src;C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
-    <MultiProcNumber>1</MultiProcNumber>
+    <MultiProcNumber>9</MultiProcNumber>
     <IncludePath>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\src;C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -115,7 +115,6 @@
     <ClInclude Include="include\Realm\Realm.h" />
     <ClInclude Include="include\QQ\API.h" />
     <ClInclude Include="include\QQ\user.h" />
-    <ClInclude Include="src\test\test.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\QQ\Web.cpp" />
