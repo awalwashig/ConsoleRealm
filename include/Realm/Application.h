@@ -1,8 +1,7 @@
 #pragma once
-namespace ConsoleApplication {
 
-void StartApplication() {
+namespace Realm {
 
-}
+
 
 }

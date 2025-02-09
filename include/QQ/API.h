@@ -8,7 +8,7 @@ class API {
 public:
 	API() noexcept = default;
 
-	API(std::string& ip);
+	API(std::string ip);
 
 	~API();
 
@@ -16,7 +16,7 @@ public:
 	API* on_message();
 private:
 	std::string token;
-	
+	std::string ip;
 	
 };
 

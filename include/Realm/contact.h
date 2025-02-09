@@ -15,14 +15,19 @@ using json = nlohmann::json;
  */
 template<typename ...Types>
 class contact {
+	friend class Realm;
+
 public:
 	//类型
 	using APIs = std::tuple<Types...>;
 public:
-
+	
 
 public:
-	explicit contact(Types... param);
+	explicit contact(Types... param)
+		: contact(std::forward<Types>(param)...) {
+
+	}
 
 	// 实例不能复制
 	contact(const contact&) = delete;

@@ -1,7 +1,8 @@
 #include <QQ/API.h>
 
 namespace QQ {
-API::API(std::string& ip){
+API::API(std::string ip)
+	:ip(ip){
 	
 }
 
