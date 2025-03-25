@@ -97,25 +97,14 @@
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\base\Config.cpp" />
-    <ClCompile Include="src\RealmDC\LinkQQ.cpp" />
     <ClCompile Include="src\RealmDC\RealmDC.cpp" />
-    <ClCompile Include="src\RealmDC\RealmHashDC.cpp" />
-    <ClCompile Include="src\RealmDC\slashcommand.cpp" />
-    <ClCompile Include="src\RealmQQ\LinkDC.cpp" />
     <ClCompile Include="src\RealmQQ\RealmHashQQ.cpp" />
-    <ClCompile Include="src\RealmQQ\RealmQQ.cpp" />
-    <ClCompile Include="src\RealmQQ\twobot\apiset.cc" />
-    <ClCompile Include="src\RealmQQ\twobot\twobot.cc" />
     <ClCompile Include="src\start.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Application.h" />
-    <ClInclude Include="src\base\Config.h" />
-    <ClInclude Include="src\RealmDC\LinkQQ.h" />
     <ClInclude Include="src\RealmDC\RealmDC.h" />
     <ClInclude Include="src\RealmDC\RealmHashDC.h" />
     <ClInclude Include="src\RealmDC\slashcommand.h" />
-    <ClInclude Include="src\RealmQQ\LinkDC.h" />
     <ClInclude Include="src\RealmQQ\RealmHashQQ.h" />
     <ClInclude Include="src\RealmQQ\RealmQQ.h" />
     <ClInclude Include="src\RealmQQ\twobot\include\brynet\base\Any.hpp" />
@@ -166,7 +155,6 @@
     <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\wrapper\HttpServiceBuilder.hpp" />
     <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\wrapper\ServiceBuilder.hpp" />
     <ClInclude Include="src\RealmQQ\twobot\include\brynet\Version.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\twobot.hh" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
