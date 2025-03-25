@@ -75,43 +75,18 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
-    <MultiProcNumber>1</MultiProcNumber>
-    <IncludePath>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\src;C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include</IncludePath>
+    <MultiProcNumber>3</MultiProcNumber>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
-<<<<<<< HEAD
-    <MultiProcNumber>1</MultiProcNumber>
-    <IncludePath>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\src;C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <MultiProcNumber>9</MultiProcNumber>
-    <IncludePath>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\src;C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include</IncludePath>
-    <LibraryPath>
-    </LibraryPath>
-=======
     <MultiProcNumber>12</MultiProcNumber>
     <IncludePath>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\src\RealmQQ\twobot\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <MultiProcNumber>9</MultiProcNumber>
     <IncludePath>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\src\RealmQQ\twobot\include;$(IncludePath)</IncludePath>
->>>>>>> 2a910edce2c9b6455e2c8e604b6eb4500e442ccf
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
-    <MultiProcNumber>1</MultiProcNumber>
-    <IncludePath>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\src;C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
-    <IncludePath>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\src;C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
-    <IncludePath>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\src;C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\src;C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
-    <IncludePath>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\src;C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include</IncludePath>
+    <MultiProcNumber>3</MultiProcNumber>
   </PropertyGroup>
   <ItemGroup>
     <None Include=".gitattributes" />
@@ -119,8 +94,6 @@
     <None Include="date\config.json" />
     <None Include="README.md" />
   </ItemGroup>
-<<<<<<< HEAD
-=======
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\base\Config.cpp" />
@@ -195,7 +168,6 @@
     <ClInclude Include="src\RealmQQ\twobot\include\brynet\Version.hpp" />
     <ClInclude Include="src\RealmQQ\twobot\twobot.hh" />
   </ItemGroup>
->>>>>>> 2a910edce2c9b6455e2c8e604b6eb4500e442ccf
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
       <CppLanguageStandard>c++20</CppLanguageStandard>
@@ -209,14 +181,13 @@
       <CppLanguageStandard>c++20</CppLanguageStandard>
     </ClCompile>
     <Link>
-      <LibraryDependencies>dpp;pthread</LibraryDependencies>
+      <LibraryDependencies>dpp;jsoncpp;pthread</LibraryDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <CppLanguageStandard>c++20</CppLanguageStandard>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>DPP_CORO</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <LibraryDependencies>dpp;jsoncpp;pthread;curl</LibraryDependencies>
