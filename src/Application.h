@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include <memory>
+#include <functional>
+#include <regex>
 
 #include <dpp/dpp.h>
 #include <twobot.hh>
@@ -18,12 +20,33 @@ private:
 	std::unique_ptr<nlohmann::json> m_config;
 };
 
+class markdown {
+public:
+	markdown() = default;
+
+	std::string MarkdownRemove(std::string str);
+
+	std::string MarkdownAttached(std::string&& str);
+private:
+	std::vector<std::string> Flag;
+};
+
 class qq {
 public:
 	qq();
 
 	qq& reset(nlohmann::json& config);
+
+	qq& set_callback(void(*fn)(nlohmann::json));
+
+	qq& start();
 private:
+	qq& main();
+
+
+private:
+	std::function<void(nlohmann::json)> callback;
+
 	std::unique_ptr<twobot::BotInstance> m_qq;
 	nlohmann::json config;
 };
@@ -36,9 +59,17 @@ public:
 
 	discord& reset(nlohmann::json& config);
 
-private:
-	discord& start(dpp::start_type start);
+	discord& set_callback(void(*fn)(nlohmann::json));
 
+	discord& start(dpp::start_type start);
+private:
+	discord& main();
+
+private:
+
+	bool send_flag = 0;
+
+	std::function<void(nlohmann::json)> callback;
 	std::unique_ptr<dpp::cluster> m_cluster;
 	nlohmann::json config;
 };
