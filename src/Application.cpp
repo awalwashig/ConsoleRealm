@@ -3,7 +3,6 @@
 int main() {
 	Realm bot;
 
-	bot.start();
 }
 
 config::config(std::string_view& path){
