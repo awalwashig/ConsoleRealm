@@ -5,6 +5,17 @@
 #include <dpp/dpp.h>
 #include <twobot.hh>
 
+class config {
+public:
+	config() = default;
+
+	config(std::string_view& path);
+
+	config& reset(std::string_view& path);
+private:
+	std::unique_ptr<nlohmann::json> m_config;
+};
+
 class qq {
 public:
 	qq();

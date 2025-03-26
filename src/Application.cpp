@@ -6,6 +6,26 @@ int main() {
 	bot.start();
 }
 
+config::config(std::string_view& path){
+	reset(path);
+}
+
+config& config::reset(std::string_view& path){
+	std::ifstream File((const std::string&)path);
+
+	if (!File.is_open()) {
+		std::cerr << "[ERROR]:Cennt open file" << std::endl;
+	}
+	else {
+		nlohmann::json root;
+		File >> root;
+		m_config.reset(new nlohmann::json(std::move(root)));
+	}
+
+	return *this;
+}
+
+
 qq::qq(){
 
 }
