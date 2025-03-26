@@ -112,9 +112,30 @@ void qq::accept(nlohmann::json input){
 }
 
 qq& qq::main(){
+	using twobot::Config;
+	using twobot::BotInstance;
+	using twobot::ApiSet;
+	using namespace twobot::Event;
+
+	m_qq->onEvent<GroupMsg>([&](const GroupMsg& msg) {
+		//if (msg.raw_message == "你好")
+		//	m_qq->getApiSet().sendGroupMsg(msg.group_id, "你好，我是twobot！");
+		//else if (msg.raw_message.find("AT我") != std::string::npos) {
+		//	std::string at = "[CQ:at,qq=" + std::to_string(msg.user_id) + "]";
+		//	m_qq->getApiSet().sendGroupMsg(msg.group_id, at + "要我at你干啥？");
+		//}
+		if (msg.group_id != config["group"]) {
+			return;
+		}
+		nlohmann::json input;
+
+		input["content"] = msg.raw_message;
+		input["username"] = msg.group_name;
+		input["avatar_url"];
 
 
-
+		callback(input);
+		});
 	return *this;
 }
 
@@ -199,8 +220,8 @@ discord& discord::main(){
 			return;
 		}
 
-		nlohmann::json message;
-		message["group"] = Realm::m_instance->GetConifg()["qq"]["group"];
+		nlohmann::json input;
+		input["group"] = Realm::m_instance->GetConifg()["qq"]["group"];
 
 		markdown MK;
 
@@ -209,15 +230,15 @@ discord& discord::main(){
 		std::cout << Obj << ":" << content << std::endl;
 
 		if (Obj == event.msg.author.global_name && !send_flag) {
-			message["msg"] = content;
+			input["msg"] = content;
 		}
 		else {
-			message["msg"] = event.msg.author.global_name + ":" + content;
+			input["msg"] = event.msg.author.global_name + ":" + content;
 			Obj = event.msg.author.global_name;
 			send_flag = 0;
 		}
 
-		callback(message);
+		callback(input);
 		});
 
 	return *this;
