@@ -12,6 +12,8 @@ public:
 	config(std::string_view& path);
 
 	config& reset(std::string_view& path);
+
+	nlohmann::json& GetConifg();
 private:
 	std::unique_ptr<nlohmann::json> m_config;
 };
@@ -20,6 +22,7 @@ class qq {
 public:
 	qq();
 
+	qq& reset(nlohmann::json& config);
 private:
 	std::unique_ptr<twobot::BotInstance> m_qq;
 	nlohmann::json config;
@@ -40,9 +43,13 @@ private:
 	nlohmann::json config;
 };
 
-class Realm {
+class Realm : public config, public qq, public discord {
 public:
-	Realm();
+	Realm() = default;
+
+	Realm(std::string_view& config);
+
+	Realm& reset(std::string_view& config);
 
 	Realm& start();
 };

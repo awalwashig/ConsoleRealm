@@ -25,9 +25,19 @@ config& config::reset(std::string_view& path){
 	return *this;
 }
 
+nlohmann::json& config::GetConifg(){
+	return *m_config;
+}
+
 
 qq::qq(){
 
+}
+
+qq& qq::reset(nlohmann::json& config){
+
+
+	return *this;
 }
 
 discord::discord(nlohmann::json& config){
@@ -45,11 +55,20 @@ discord& discord::start(dpp::start_type start){
 	return *this;
 }
 
-Realm::Realm(){
+Realm::Realm(std::string_view& config){
+	reset(config);
+}
 
+Realm& Realm::reset(std::string_view& config){
+	config::reset(config);
+	discord::reset(config::GetConifg());
+	qq::reset(config::GetConifg());
+
+	return *this;
 }
 
 Realm& Realm::start(){
+
 
 	return *this;
 }
