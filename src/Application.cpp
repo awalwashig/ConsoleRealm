@@ -120,12 +120,15 @@ qq& qq::main() {
 	using namespace twobot::Event;
 
 	m_qq->onEvent<GroupMsg>([&](const GroupMsg& msg) {
+		std::cout << msg.raw_msg << std::endl;
+
 		if (msg.group_id != config["group"]) {
 			return;
 		}
 		nlohmann::json input;
 
-		input["content"] = msg.raw_message;
+		input["content"] = msg.raw_msg;
+
 		input["username"] = msg.raw_msg["sender"]["nickname"];
 		input["avatar_url"] = std::string("https://q.qlogo.cn/headimg_dl?dst_uin=") + std::string(std::to_string((int)msg.user_id)) + std::string("&spec=2&img_type=jpg");
 
@@ -261,3 +264,11 @@ Realm& Realm::start() {
 	discord::start(dpp::st_wait);
 	return *this;
 }
+
+/*
+* 通用：消息队列，建立好hash表对双方映射;
+* 
+* discord：处理正则表达（表情符号）并保存挂在服务上面;
+* 
+* qq处理一堆破事分类好qq喂过来的史;
+*/
