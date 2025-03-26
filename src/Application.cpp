@@ -3,7 +3,7 @@
 std::unique_ptr<Realm> Realm::m_instance;
 
 int main() {
-	std::string path{"/home/woomy/projects/ConsoleApplication/data/config.json"};
+	std::string path{ "/home/woomy/projects/ConsoleApplication/data/config.json" };
 
 	Realm::m_instance.reset(new Realm);
 	Realm::m_instance->
@@ -34,7 +34,7 @@ nlohmann::json& config::GetConifg() {
 	return *m_config;
 }
 
-std::string markdown::MarkdownRemove(std::string str){
+std::string markdown::MarkdownRemove(std::string str) {
 	std::vector<std::tuple<std::string, std::string, std::string>> regexReplacements = {
 			{ R"(\*\*([^*]+)\*\*)", "$1","**"},      // Markdown 加粗，如 **加粗** → 保留内部内容
 			{ R"(\*([^*]+)\*)", "$1","*" },          // Markdown 斜体，如 *斜体* → 保留内部内容
@@ -60,7 +60,7 @@ std::string markdown::MarkdownRemove(std::string str){
 	return str;
 }
 
-std::string markdown::MarkdownAttached(std::string&& str){
+std::string markdown::MarkdownAttached(std::string&& str) {
 	for (const auto& Obj : Flag) {
 		str = Obj + str + Obj;
 		std::cout << str << std::endl;
@@ -80,6 +80,7 @@ qq& qq::reset(nlohmann::json& config) {
 		}
 	);
 
+	main();
 	//if (!m_qq->getApiSet().testConnection()) {
 	//	std::cerr << "测试连接失败，请启动onebot服务器，并配置HTTP端口！" << std::endl;
 	//}
@@ -87,31 +88,31 @@ qq& qq::reset(nlohmann::json& config) {
 	return *this;
 }
 
-qq& qq::set_callback(void(*fn)(nlohmann::json)){
+qq& qq::set_callback(void(*fn)(nlohmann::json)) {
 	return *this;
 }
 
-qq& qq::start(){
+qq& qq::start() {
 	std::thread([&]() {
 		m_qq->start();
 		}).detach();
 	return *this;
 }
 
-twobot::BotInstance& qq::GetInstance(){
+twobot::BotInstance& qq::GetInstance() {
 	return *m_qq;
 }
 
-void qq::accept(nlohmann::json input){
+void qq::accept(nlohmann::json input) {
 	std::cout << "QQ: accept" << std::endl;
 
 	Realm::m_instance->
-	GetInstance().
+		GetInstance().
 		getApiSet().
 		sendGroupMsg(input["group"], input["msg"]);
 }
 
-qq& qq::main(){
+qq& qq::main() {
 	using twobot::Config;
 	using twobot::BotInstance;
 	using twobot::ApiSet;
@@ -125,7 +126,7 @@ qq& qq::main(){
 		//	m_qq->getApiSet().sendGroupMsg(msg.group_id, at + "要我at你干啥？");
 		//}
 
-		std::cout << msg.raw_msg << std::endl;
+		std::cout << msg.user_id << std::endl;
 
 		if (msg.group_id != config["group"]) {
 			return;
@@ -134,7 +135,7 @@ qq& qq::main(){
 
 		input["content"] = msg.raw_message;
 		input["username"] = msg.group_name;
-		input["avatar_url"];
+		input["avatar_url"] = std::string("https://q.qlogo.cn/headimg_dl?dst_uin=") + std::string(std::to_string((int)msg.user_id)) + std::string("&spec=2&img_type=jpg");
 
 
 		callback(input);
@@ -155,7 +156,7 @@ discord& discord::reset(nlohmann::json& config) {
 	return *this;
 }
 
-discord& discord::set_callback(void(*fn)(nlohmann::json)){
+discord& discord::set_callback(void(*fn)(nlohmann::json)) {
 	callback = fn;
 
 	return *this;
@@ -169,18 +170,18 @@ discord& discord::start(dpp::start_type start) {
 	return *this;
 }
 
-void discord::set_send_flag(){
+void discord::set_send_flag() {
 	send_flag = 1;
 }
 
-void discord::accept(nlohmann::json input){
+void discord::accept(nlohmann::json input) {
 	nlohmann::json jsonData;
+	jsonData = input;
 
-
-	UseWebhook(jsonData, input["webhook"]);
+	UseWebhook(jsonData, Realm::m_instance->GetConifg()["discord"]["webhook"]);
 }
 
-void discord::UseWebhook(nlohmann::json& jsonDate, std::string url){
+void discord::UseWebhook(nlohmann::json& jsonDate, std::string url) {
 	std::string jsonStr = jsonDate.dump();
 
 	// 初始化 libcurl
@@ -215,7 +216,7 @@ void discord::UseWebhook(nlohmann::json& jsonDate, std::string url){
 	curl_global_cleanup();
 }
 
-discord& discord::main(){
+discord& discord::main() {
 	m_cluster->on_message_create([&](const dpp::message_create_t& event) {
 		static std::string Obj = "";
 
@@ -256,7 +257,8 @@ Realm& Realm::reset(std::string& config) {
 
 	discord::reset(config::GetConifg())
 		.set_callback(qq::accept);
-	qq::reset(config::GetConifg());
+	qq::reset(config::GetConifg())
+		.set_callback(discord::accept);
 
 	return *this;
 }
