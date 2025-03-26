@@ -34,7 +34,9 @@ qq::qq(){
 }
 
 qq& qq::reset(nlohmann::json& config){
+	this->config = config["qq"];
 
+	m_qq.reset(new twobot::BotInstance());
 
 	return *this;
 }
