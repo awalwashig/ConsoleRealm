@@ -89,6 +89,7 @@ qq& qq::reset(nlohmann::json& config) {
 }
 
 qq& qq::set_callback(void(*fn)(nlohmann::json)) {
+	callback = fn;
 	return *this;
 }
 
@@ -119,24 +120,14 @@ qq& qq::main() {
 	using namespace twobot::Event;
 
 	m_qq->onEvent<GroupMsg>([&](const GroupMsg& msg) {
-		//if (msg.raw_message == "你好")
-		//	m_qq->getApiSet().sendGroupMsg(msg.group_id, "你好，我是twobot！");
-		//else if (msg.raw_message.find("AT我") != std::string::npos) {
-		//	std::string at = "[CQ:at,qq=" + std::to_string(msg.user_id) + "]";
-		//	m_qq->getApiSet().sendGroupMsg(msg.group_id, at + "要我at你干啥？");
-		//}
-
-		std::cout << msg.user_id << std::endl;
-
 		if (msg.group_id != config["group"]) {
 			return;
 		}
 		nlohmann::json input;
 
 		input["content"] = msg.raw_message;
-		input["username"] = msg.group_name;
+		input["username"] = msg.raw_msg["sender"]["nickname"];
 		input["avatar_url"] = std::string("https://q.qlogo.cn/headimg_dl?dst_uin=") + std::string(std::to_string((int)msg.user_id)) + std::string("&spec=2&img_type=jpg");
-
 
 		callback(input);
 		});
@@ -175,10 +166,11 @@ void discord::set_send_flag() {
 }
 
 void discord::accept(nlohmann::json input) {
-	nlohmann::json jsonData;
-	jsonData = input;
+	std::cout << "discord: accept" << std::endl;
 
-	UseWebhook(jsonData, Realm::m_instance->GetConifg()["discord"]["webhook"]);
+	Realm::m_instance->set_send_flag();
+
+	UseWebhook(input, Realm::m_instance->GetConifg()["discord"]["webhook"]);
 }
 
 void discord::UseWebhook(nlohmann::json& jsonDate, std::string url) {
