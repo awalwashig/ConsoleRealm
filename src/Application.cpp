@@ -3,7 +3,7 @@
 std::unique_ptr<Realm> Realm::m_instance;
 
 int main() {
-	std::string path{"/home/awalwashig/projects/ConsoleApplication/data/config.json"};
+	std::string path{"/home/woomy/projects/ConsoleApplication/data/config.json"};
 
 	Realm::m_instance.reset(new Realm);
 	Realm::m_instance->
@@ -124,6 +124,9 @@ qq& qq::main(){
 		//	std::string at = "[CQ:at,qq=" + std::to_string(msg.user_id) + "]";
 		//	m_qq->getApiSet().sendGroupMsg(msg.group_id, at + "ÒªÎÒatÄã¸ÉÉ¶£¿");
 		//}
+
+		std::cout << msg.raw_msg << std::endl;
+
 		if (msg.group_id != config["group"]) {
 			return;
 		}

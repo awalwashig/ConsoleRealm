@@ -149,6 +149,33 @@
       <AdditionalIncludeDirectories>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include\twobot\include;C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include\twobot;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include\twobot\include;C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include\twobot;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CppLanguageStandard>c++20</CppLanguageStandard>
+    </ClCompile>
+    <Link>
+      <LibraryDependencies>dpp;pthread;curl</LibraryDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include\twobot\include;C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include\twobot;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CppLanguageStandard>c++20</CppLanguageStandard>
+    </ClCompile>
+    <Link>
+      <LibraryDependencies>dpp;pthread;curl</LibraryDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include\twobot\include;C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include\twobot;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CppLanguageStandard>c++20</CppLanguageStandard>
+    </ClCompile>
+    <Link>
+      <LibraryDependencies>dpp;pthread;curl</LibraryDependencies>
+    </Link>
+  </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>
