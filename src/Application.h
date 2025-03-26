@@ -3,6 +3,7 @@
 #include <memory>
 #include <functional>
 #include <regex>
+#include <curl/curl.h>
 
 #include <dpp/dpp.h>
 #include <twobot.hh>
@@ -40,6 +41,11 @@ public:
 	qq& set_callback(void(*fn)(nlohmann::json));
 
 	qq& start();
+
+public:
+
+
+	static void send(nlohmann::json input);
 private:
 	qq& main();
 
@@ -62,6 +68,12 @@ public:
 	discord& set_callback(void(*fn)(nlohmann::json));
 
 	discord& start(dpp::start_type start);
+public:
+
+
+	static void send(nlohmann::json input);
+
+	static void UseWebhook(nlohmann::json& jsonDate, std::string url);
 private:
 	discord& main();
 

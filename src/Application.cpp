@@ -89,6 +89,10 @@ qq& qq::start(){
 	return *this;
 }
 
+void qq::send(nlohmann::json input){
+
+}
+
 qq& qq::main(){
 
 
@@ -118,6 +122,45 @@ discord& discord::set_callback(void(*fn)(nlohmann::json)){
 discord& discord::start(dpp::start_type start) {
 	m_cluster->start(start);
 	return *this;
+}
+
+void discord::send(nlohmann::json input){
+	
+}
+
+void discord::UseWebhook(nlohmann::json& jsonDate, std::string url){
+	std::string jsonStr = jsonDate.dump();
+
+	// 初始化 libcurl
+	curl_global_init(CURL_GLOBAL_DEFAULT);
+	CURL* curl = curl_easy_init();
+	if (curl) {
+		// 设置请求头为 JSON 格式
+		struct curl_slist* headers = nullptr;
+		headers = curl_slist_append(headers, "Content-Type: application/json");
+
+		// 设置请求 URL 和 POST 数据
+		curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+		curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, jsonStr.c_str());
+
+		// 执行请求
+		CURLcode res = curl_easy_perform(curl);
+		if (res != CURLE_OK) {
+			std::cerr << "请求失败: " << curl_easy_strerror(res) << std::endl;
+		}
+		else {
+
+		}
+
+		// 清理资源
+		curl_slist_free_all(headers);
+		curl_easy_cleanup(curl);
+	}
+	else {
+		std::cerr << "初始化 libcurl 失败" << std::endl;
+	}
+	curl_global_cleanup();
 }
 
 discord& discord::main(){
@@ -155,7 +198,8 @@ Realm::Realm(std::string_view& config) {
 Realm& Realm::reset(std::string_view& config) {
 	config::reset(config);
 
-	discord::reset(config::GetConifg());
+	discord::reset(config::GetConifg())
+		.set_callback(qq::send);
 	qq::reset(config::GetConifg());
 
 	return *this;
@@ -163,6 +207,7 @@ Realm& Realm::reset(std::string_view& config) {
 
 Realm& Realm::start() {
 
-
+	qq::start();
+	discord::start(dpp::st_wait);
 	return *this;
 }
