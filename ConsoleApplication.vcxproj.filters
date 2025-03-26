@@ -10,4 +10,7 @@
     <None Include=".gitattributes" />
     <None Include=".gitignore" />
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Application.cpp" />
+  </ItemGroup>
 </Project>
