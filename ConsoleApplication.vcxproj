@@ -82,20 +82,6 @@
     <None Include=".gitignore" />
     <None Include="README.md" />
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\Application.cpp" />
-    <ClCompile Include="src\config.cpp" />
-    <ClCompile Include="src\discord.cpp" />
-    <ClCompile Include="src\message.cpp" />
-    <ClCompile Include="src\Realm.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\config.h" />
-    <ClInclude Include="src\discord.h" />
-    <ClInclude Include="src\message.h" />
-    <ClInclude Include="src\qq.h" />
-    <ClInclude Include="src\Realm.h" />
-  </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
       <LibraryDependencies>dpp;pthread</LibraryDependencies>
