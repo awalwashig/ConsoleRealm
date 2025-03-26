@@ -71,10 +71,10 @@ qq& qq::reset(nlohmann::json& config) {
 
 	m_qq = twobot::BotInstance::createInstance(
 		twobot::Config{
-			config["ip"],
-			config["http"],
-			config["ws"],
-			config["token"]
+			this->config["ip"],
+			this->config["http"],
+			this->config["ws"],
+			this->config["token"]
 		}
 	);
 
