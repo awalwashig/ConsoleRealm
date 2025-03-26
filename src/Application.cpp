@@ -124,7 +124,7 @@ discord::discord(nlohmann::json& config) {
 
 discord& discord::reset(nlohmann::json& config) {
 	this->config = config["discord"];
-	m_cluster.reset(new dpp::cluster(this->config["token"]));
+	m_cluster.reset(new dpp::cluster(this->config["token"], dpp::i_default_intents | dpp::i_message_content | dpp::i_guild_messages));
 
 	main();
 
@@ -143,6 +143,10 @@ discord& discord::start(dpp::start_type start) {
 
 	m_cluster->start(start);
 	return *this;
+}
+
+void discord::set_send_flag(){
+	send_flag = 1;
 }
 
 void discord::accept(nlohmann::json input){
@@ -202,12 +206,15 @@ discord& discord::main(){
 
 		std::string content = MK.MarkdownRemove(event.msg.content);
 
-		if (Obj == event.msg.author.global_name && send_flag) {
+		std::cout << Obj << ":" << content << std::endl;
+
+		if (Obj == event.msg.author.global_name && !send_flag) {
 			message["msg"] = content;
 		}
 		else {
 			message["msg"] = event.msg.author.global_name + ":" + content;
 			Obj = event.msg.author.global_name;
+			send_flag = 0;
 		}
 
 		callback(message);

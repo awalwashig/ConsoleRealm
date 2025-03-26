@@ -69,7 +69,7 @@ public:
 
 	discord& start(dpp::start_type start);
 public:
-
+	void set_send_flag();
 
 	static void accept(nlohmann::json input);
 
