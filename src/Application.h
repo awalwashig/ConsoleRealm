@@ -43,9 +43,9 @@ public:
 	qq& start();
 
 public:
+	twobot::BotInstance& GetInstance();
 
-
-	static void send(nlohmann::json input);
+	static void accept(nlohmann::json input);
 private:
 	qq& main();
 
@@ -71,7 +71,7 @@ public:
 public:
 
 
-	static void send(nlohmann::json input);
+	static void accept(nlohmann::json input);
 
 	static void UseWebhook(nlohmann::json& jsonDate, std::string url);
 private:

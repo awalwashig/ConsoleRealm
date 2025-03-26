@@ -6,7 +6,9 @@ int main() {
 	std::string path{"/home/awalwashig/projects/ConsoleApplication/data/config.json"};
 
 	Realm::m_instance.reset(new Realm);
-	Realm::m_instance->reset(path);
+	Realm::m_instance->
+		reset(path)
+		.start();
 }
 
 config::config(std::string& path) {
@@ -86,11 +88,21 @@ qq& qq::set_callback(void(*fn)(nlohmann::json)){
 }
 
 qq& qq::start(){
+	std::thread([&]() {
+		m_qq->start();
+		}).detach();
 	return *this;
 }
 
-void qq::send(nlohmann::json input){
+twobot::BotInstance& qq::GetInstance(){
+	return *m_qq;
+}
 
+void qq::accept(nlohmann::json input){
+	Realm::m_instance->
+	GetInstance().
+		getApiSet().
+		sendGroupMsg(input["group"], input["msg"]);
 }
 
 qq& qq::main(){
@@ -124,11 +136,11 @@ discord& discord::start(dpp::start_type start) {
 	return *this;
 }
 
-void discord::send(nlohmann::json input){
+void discord::accept(nlohmann::json input){
 	nlohmann::json jsonData;
 
 
-	UseWebhook(jsonData, Realm::m_instance->GetConifg()["discord"]["webhook"]);
+	UseWebhook(jsonData, input["webhook"]);
 }
 
 void discord::UseWebhook(nlohmann::json& jsonDate, std::string url){
@@ -202,7 +214,7 @@ Realm& Realm::reset(std::string& config) {
 	config::reset(config);
 
 	discord::reset(config::GetConifg())
-		.set_callback(qq::send);
+		.set_callback(qq::accept);
 	qq::reset(config::GetConifg());
 
 	return *this;
