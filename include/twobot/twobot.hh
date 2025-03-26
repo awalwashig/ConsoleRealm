@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <string>
-#include <string_view>
+#include <string>
 #include <optional>
 #include <memory>
 #include <unordered_map>
@@ -12,8 +12,8 @@
 namespace twobot
 {
     struct EventType{
-        std::string_view post_type;
-        std::string_view sub_type;
+        std::string post_type;
+        std::string sub_type;
 
         bool operator==(const EventType &other) const {
             return post_type == other.post_type && sub_type == other.sub_type;
@@ -25,8 +25,8 @@ namespace std{
     template<>
     struct hash<twobot::EventType> {
         size_t operator()(const twobot::EventType &event) const {
-            auto left_hash = hash<std::string_view>()(event.post_type);
-            auto right_hash = hash<std::string_view>()(event.sub_type);
+            auto left_hash = hash<std::string>()(event.post_type);
+            auto right_hash = hash<std::string>()(event.sub_type);
             return  left_hash ^ (right_hash << 1);
         }
     };

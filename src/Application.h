@@ -12,9 +12,9 @@ class config {
 public:
 	config() = default;
 
-	config(std::string_view& path);
+	config(std::string& path);
 
-	config& reset(std::string_view& path);
+	config& reset(std::string& path);
 
 	nlohmann::json& GetConifg();
 private:
@@ -34,7 +34,7 @@ private:
 
 class qq {
 public:
-	qq();
+	qq() = default;
 
 	qq& reset(nlohmann::json& config);
 
@@ -90,9 +90,12 @@ class Realm : public config, public qq, public discord {
 public:
 	Realm() = default;
 
-	Realm(std::string_view& config);
+	Realm(std::string& config);
 
-	Realm& reset(std::string_view& config);
+	Realm& reset(std::string& config);
 
 	Realm& start();
+
+public:
+	static std::unique_ptr<Realm> m_instance;
 };

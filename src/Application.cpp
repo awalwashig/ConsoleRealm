@@ -1,16 +1,20 @@
 #include "Application.h"
 
-int main() {
-	Realm bot;
+std::unique_ptr<Realm> Realm::m_instance;
 
+int main() {
+	std::string path{"/home/awalwashig/projects/ConsoleApplication/data/config.json"};
+
+	Realm::m_instance.reset(new Realm);
+	Realm::m_instance->reset(path);
 }
 
-config::config(std::string_view& path) {
+config::config(std::string& path) {
 	reset(path);
 }
 
-config& config::reset(std::string_view& path) {
-	std::ifstream File((const std::string&)path);
+config& config::reset(std::string& path) {
+	std::ifstream File(path);
 
 	if (!File.is_open()) {
 		std::cerr << "[ERROR]:Cennt open file" << std::endl;
@@ -62,10 +66,6 @@ std::string markdown::MarkdownAttached(std::string&& str){
 	return str;
 }
 
-qq::qq() {
-
-}
-
 qq& qq::reset(nlohmann::json& config) {
 	this->config = config["qq"];
 
@@ -106,7 +106,7 @@ discord::discord(nlohmann::json& config) {
 
 discord& discord::reset(nlohmann::json& config) {
 	this->config = config["discord"];
-	m_cluster.reset(new dpp::cluster(this->config["discord"]["token"]));
+	m_cluster.reset(new dpp::cluster(this->config["token"]));
 
 	main();
 
@@ -125,7 +125,10 @@ discord& discord::start(dpp::start_type start) {
 }
 
 void discord::send(nlohmann::json input){
-	
+	nlohmann::json jsonData;
+
+
+	UseWebhook(jsonData, Realm::m_instance->GetConifg()["discord"]["webhook"]);
 }
 
 void discord::UseWebhook(nlohmann::json& jsonDate, std::string url){
@@ -191,11 +194,11 @@ discord& discord::main(){
 	return *this;
 }
 
-Realm::Realm(std::string_view& config) {
+Realm::Realm(std::string& config) {
 	reset(config);
 }
 
-Realm& Realm::reset(std::string_view& config) {
+Realm& Realm::reset(std::string& config) {
 	config::reset(config);
 
 	discord::reset(config::GetConifg())
