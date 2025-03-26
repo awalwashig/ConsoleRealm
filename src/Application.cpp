@@ -80,6 +80,10 @@ qq& qq::reset(nlohmann::json& config) {
 		}
 	);
 
+	//if (!m_qq->getApiSet().testConnection()) {
+	//	std::cerr << "测试连接失败，请启动onebot服务器，并配置HTTP端口！" << std::endl;
+	//}
+
 	return *this;
 }
 
@@ -99,6 +103,8 @@ twobot::BotInstance& qq::GetInstance(){
 }
 
 void qq::accept(nlohmann::json input){
+	std::cout << "QQ: accept" << std::endl;
+
 	Realm::m_instance->
 	GetInstance().
 		getApiSet().
@@ -132,6 +138,9 @@ discord& discord::set_callback(void(*fn)(nlohmann::json)){
 }
 
 discord& discord::start(dpp::start_type start) {
+	//debug
+	m_cluster->on_log(dpp::utility::cout_logger());
+
 	m_cluster->start(start);
 	return *this;
 }
@@ -187,6 +196,7 @@ discord& discord::main(){
 		}
 
 		nlohmann::json message;
+		message["group"] = Realm::m_instance->GetConifg()["qq"]["group"];
 
 		markdown MK;
 
