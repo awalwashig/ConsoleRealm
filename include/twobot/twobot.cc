@@ -1,5 +1,5 @@
-#include "twobot.hh"
-#include <nlohmann/json.hpp>
+﻿#include "twobot.hh"
+#include <dpp/dpp.h>
 #include <cstdint>
 #include <exception>
 #include <iostream>
@@ -10,7 +10,7 @@
 #endif
 
 #include <httplib.h>
-#include <nlohmann/json.hpp>
+#include <dpp/dpp.h>
 #include <brynet/base/Packet.hpp>
 #include <brynet/net/http/WebSocketFormat.hpp>
 #include <brynet/net/wrapper/HttpServiceBuilder.hpp>
@@ -18,7 +18,7 @@
 
 namespace twobot {
 	std::unique_ptr<BotInstance> BotInstance::createInstance(const Config& config) {
-		return std::unique_ptr<BotInstance>(new BotInstance{config} );
+		return std::unique_ptr<BotInstance>(new BotInstance{ config });
 	}
 
 	ApiSet& BotInstance::getApiSet() {
@@ -35,14 +35,15 @@ namespace twobot {
 	void BotInstance::onEvent(std::function<void(const EventType&)> callback) {
 		EventType event{};
 		this->event_callbacks[event.getType()] = Callback([callback](const Event::EventBase& event) {
-			try{
+			try {
 				callback(static_cast<const EventType&>(event));
-			}catch(const std::exception &e){
-				const auto & eventType = event.getType();
+			}
+			catch (const std::exception& e) {
+				const auto& eventType = event.getType();
 				std::cerr << "EventType: {" << eventType.post_type << ", " << eventType.sub_type << "}\n";
 				std::cerr << "\tBotInstance::onEvent error: " << e.what() << std::endl;
 			}
-		});
+			});
 	}
 
 	void BotInstance::start() {
@@ -58,20 +59,21 @@ namespace twobot {
 			const std::string& payload) {
 				try {
 					nlohmann::json json_payload = nlohmann::json::parse(payload);
-					
+
 					// 忽略心跳包
-					if(json_payload.contains("meta_event_type"))
-						if(json_payload["meta_event_type"] == "heartbeat")
+					if (json_payload.contains("meta_event_type"))
+						if (json_payload["meta_event_type"] == "heartbeat")
 							return;
 
+					std::cout << "post_type" << std::endl;
 					auto post_type = (std::string)json_payload["post_type"];
 
 					std::string sub_type;
 					if (post_type == "message")
 						sub_type = (std::string)json_payload["message_type"];
-					else if(post_type == "meta_event")
+					else if (post_type == "meta_event")
 						sub_type = (std::string)json_payload["sub_type"];
-					else if(post_type == "notice")
+					else if (post_type == "notice")
 						sub_type = (std::string)json_payload["notice_type"];
 
 					EventType event_type = {
@@ -79,26 +81,31 @@ namespace twobot {
 						sub_type
 					};
 
+					std::cout << "event_type" << std::endl;
+
 					auto event = Event::EventBase::construct(event_type);
 					if (!event)
 						return;
+
+					std::cout << "event-parse" << std::endl;
 					event->raw_msg = nlohmann::json::parse(payload);
 					event->parse();
+
+					std::cout << "callback" << std::endl;
 
 					if (event_callbacks.count(event_type) != 0) {
 						event_callbacks[event_type](
 							reinterpret_cast<const Event::EventBase&>(
 								*event
-							)
-						);
+								)
+							);
 					}
 				}
 				catch (const std::exception& e) {
 					std::cerr << "WebSocket CallBack Exception: " << e.what() << std::endl;
 				}
-				httpSession->send("");
 
-		};
+			};
 
 		wrapper::HttpListenerBuilder listener_builder;
 		listener_builder
@@ -106,18 +113,18 @@ namespace twobot {
 			.AddSocketProcess([](TcpSocket& socket) {
 			socket.setNodelay();
 				})
-			.WithMaxRecvBufferSize(10240)
-			.WithAddr(false, "0.0.0.0", websocket_port)
-			.WithEnterCallback([ws_enter_callback](const HttpSession::Ptr& httpSession, HttpSessionHandlers& handlers) {
-				handlers.setWSCallback(ws_enter_callback);
-				})
-			.asyncRun()
-			;
+			.WithMaxRecvBufferSize(1024000)
+					.WithAddr(false, "0.0.0.0", websocket_port)
+					.WithEnterCallback([ws_enter_callback](const HttpSession::Ptr& httpSession, HttpSessionHandlers& handlers) {
+					handlers.setWSCallback(ws_enter_callback);
+						})
+					.asyncRun()
+							;
 
-		while (true)
-		{
-			std::this_thread::sleep_for(std::chrono::seconds(1));
-		}
+						while (true)
+						{
+							std::this_thread::sleep_for(std::chrono::seconds(1));
+						}
 	}
 
 
@@ -128,7 +135,7 @@ namespace twobot {
 			8080,
 			8081,
 			std::nullopt
-		});
+			});
 
 		// 仅仅为了特化onEvent模板
 		instance->onEvent<Event::GroupMsg>([](const auto&) {});
@@ -151,35 +158,48 @@ namespace twobot {
 		if (event.post_type == "message") {
 			if (event.sub_type == "group") {
 				return std::unique_ptr<Event::EventBase>(new Event::GroupMsg());
-			} else if (event.sub_type == "private") {
+			}
+			else if (event.sub_type == "private") {
 				return std::unique_ptr<Event::EventBase>(new Event::PrivateMsg());
 			}
-		} else if (event.post_type == "meta_event") {
-			if(event.sub_type == "enable"){
+		}
+		else if (event.post_type == "meta_event") {
+			if (event.sub_type == "enable") {
 				return std::unique_ptr<Event::EventBase>(new Event::EnableEvent());
-			}else if(event.sub_type == "disable"){
+			}
+			else if (event.sub_type == "disable") {
 				return std::unique_ptr<Event::EventBase>(new Event::DisableEvent());
-			}else if(event.sub_type == "connect"){
+			}
+			else if (event.sub_type == "connect") {
 				return std::unique_ptr<Event::EventBase>(new Event::ConnectEvent());
 			}
-		} else if(event.post_type == "notice"){
-			if(event.sub_type == "group_upload"){
+		}
+		else if (event.post_type == "notice") {
+			if (event.sub_type == "group_upload") {
 				return std::unique_ptr<Event::EventBase>(new Event::GroupUploadNotice());
-			} else if (event.sub_type == "group_admin"){
+			}
+			else if (event.sub_type == "group_admin") {
 				return std::unique_ptr<Event::EventBase>(new Event::GroupAdminNotice());
-			} else if (event.sub_type == "group_decrease"){
+			}
+			else if (event.sub_type == "group_decrease") {
 				return std::unique_ptr<Event::EventBase>(new Event::GroupDecreaseNotice());
-			} else if (event.sub_type == "group_increase"){
+			}
+			else if (event.sub_type == "group_increase") {
 				return std::unique_ptr<Event::EventBase>(new Event::GroupInceaseNotice());
-			} else if (event.sub_type == "group_ban"){
-				return std::unique_ptr<Event::EventBase>( new Event::GroupBanNotice());
-			} else if (event.sub_type == "friend_add"){
+			}
+			else if (event.sub_type == "group_ban") {
+				return std::unique_ptr<Event::EventBase>(new Event::GroupBanNotice());
+			}
+			else if (event.sub_type == "friend_add") {
 				return std::unique_ptr<Event::EventBase>(new Event::FriendAddNotice());
-			} else if (event.sub_type == "group_recall"){
+			}
+			else if (event.sub_type == "group_recall") {
 				return std::unique_ptr<Event::EventBase>(new Event::GroupRecallNotice());
-			} else if (event.sub_type == "friend_recall"){
+			}
+			else if (event.sub_type == "friend_recall") {
 				return std::unique_ptr<Event::EventBase>(new Event::FriendRecallNotice());
-			} else if (event.sub_type == "group_notify"){
+			}
+			else if (event.sub_type == "group_notify") {
 				return std::unique_ptr<Event::EventBase>(new Event::GroupNotifyNotice());
 			}
 		}
@@ -187,53 +207,53 @@ namespace twobot {
 	}
 
 	void Event::GroupMsg::parse() {
-        this->time = this->raw_msg["time"];
+		this->time = this->raw_msg["time"];
 		this->user_id = raw_msg["user_id"];
 		this->self_id = raw_msg["self_id"];
 		this->group_id = raw_msg["group_id"];
 		this->raw_message = raw_msg["raw_message"];
-		// this->group_name = raw_msg["group_name"];
-        //this->sub_type = raw_msg["sub_type"]; 
-		if(raw_msg["sub_type"] == "normal")
+		//this->group_name = raw_msg["group_name"];
+		//this->sub_type = raw_msg["sub_type"]; 
+		if (raw_msg["sub_type"] == "normal")
 			this->sub_type = NORMAL;
-		else if(raw_msg["sub_type"] == "anonymous")
+		else if (raw_msg["sub_type"] == "anonymous")
 			this->sub_type = ANONYMOUS;
-		else if(raw_msg["sub_type"] == "notice")
+		else if (raw_msg["sub_type"] == "notice")
 			this->sub_type = NOTICE;
-        this->sender = raw_msg["sender"];
+		this->sender = raw_msg["sender"];
 	}
 
 	void Event::PrivateMsg::parse() {
-        this->time = this->raw_msg["time"];
+		this->time = this->raw_msg["time"];
 		this->user_id = raw_msg["user_id"];
 		this->self_id = raw_msg["self_id"];
 		this->raw_message = raw_msg["raw_message"];
-        // this->sub_type = raw_msg["sub_type"];
-		if(raw_msg["sub_type"] == "friend")
+		// this->sub_type = raw_msg["sub_type"];
+		if (raw_msg["sub_type"] == "friend")
 			this->sub_type = FRIEND;
-		if(raw_msg["sub_type"] == "group")
+		if (raw_msg["sub_type"] == "group")
 			this->sub_type = GROUP;
-		if(raw_msg["sub_type"] == "other")
+		if (raw_msg["sub_type"] == "other")
 			this->sub_type = OTHER;
-        this->sender = raw_msg["sender"];
+		this->sender = raw_msg["sender"];
 	}
 
-	void Event::EnableEvent::parse(){
+	void Event::EnableEvent::parse() {
 		this->time = this->raw_msg["time"];
 		this->self_id = raw_msg["self_id"];
 	}
 
-	void Event::DisableEvent::parse(){
+	void Event::DisableEvent::parse() {
 		this->time = this->raw_msg["time"];
 		this->self_id = raw_msg["self_id"];
 	}
 
-	void Event::ConnectEvent::parse(){
+	void Event::ConnectEvent::parse() {
 		this->time = this->raw_msg["time"];
 		this->self_id = raw_msg["self_id"];
 	}
 
-	void Event::GroupUploadNotice::parse(){
+	void Event::GroupUploadNotice::parse() {
 		this->time = this->raw_msg["time"];
 		this->self_id = raw_msg["self_id"];
 		this->group_id = raw_msg["group_id"];
@@ -241,64 +261,64 @@ namespace twobot {
 		this->file = raw_msg["file"];
 	}
 
-	void Event::GroupAdminNotice::parse(){
+	void Event::GroupAdminNotice::parse() {
 		this->time = this->raw_msg["time"];
 		this->self_id = raw_msg["self_id"];
 		this->group_id = raw_msg["group_id"];
 		this->user_id = raw_msg["user_id"];
-		this->sub_type = ( raw_msg["sub_type"] == "set" ) ? SET : UNSET;
+		this->sub_type = (raw_msg["sub_type"] == "set") ? SET : UNSET;
 	}
 
-	void Event::GroupDecreaseNotice::parse(){
+	void Event::GroupDecreaseNotice::parse() {
 		this->time = this->raw_msg["time"];
 		this->self_id = raw_msg["self_id"];
 		this->group_id = raw_msg["group_id"];
 		this->user_id = raw_msg["user_id"];
 		this->operator_id = raw_msg["operator_id"];
-		if(raw_msg["sub_type"] == "leave")
+		if (raw_msg["sub_type"] == "leave")
 			this->sub_type = LEAVE;
-		else if(raw_msg["sub_type"] == "kick")
+		else if (raw_msg["sub_type"] == "kick")
 			this->sub_type = KICK;
-		else 
+		else
 			this->sub_type = KICK_ME;
 	}
 
-	void Event::GroupInceaseNotice::parse(){
+	void Event::GroupInceaseNotice::parse() {
 		this->time = this->raw_msg["time"];
 		this->self_id = raw_msg["self_id"];
 		this->group_id = raw_msg["group_id"];
 		this->user_id = raw_msg["user_id"];
 		this->operator_id = raw_msg["operator_id"];
-		if(raw_msg["sub_type"] == "approve")
+		if (raw_msg["sub_type"] == "approve")
 			this->sub_type = APPROVE;
-		else if(raw_msg["sub_type"] == "invite")
+		else if (raw_msg["sub_type"] == "invite")
 			this->sub_type = INVITE;
 	}
 
-	void Event::GroupBanNotice::parse(){
+	void Event::GroupBanNotice::parse() {
 		this->time = this->raw_msg["time"];
 		this->self_id = raw_msg["self_id"];
 		this->group_id = raw_msg["group_id"];
 		this->user_id = raw_msg["user_id"];
 		this->operator_id = raw_msg["operator_id"];
 		this->duration = raw_msg["duration"];
-		this->sub_type = ( raw_msg["sub_type"] == "ban" ) ? BAN : LIFT_BAN;
+		this->sub_type = (raw_msg["sub_type"] == "ban") ? BAN : LIFT_BAN;
 	}
 
-	void Event::FriendAddNotice::parse(){
+	void Event::FriendAddNotice::parse() {
 		this->time = this->raw_msg["time"];
 		this->self_id = raw_msg["self_id"];
 		this->user_id = raw_msg["user_id"];
 	}
-	
-	void Event::FriendRecallNotice::parse(){
+
+	void Event::FriendRecallNotice::parse() {
 		this->time = this->raw_msg["time"];
 		this->self_id = raw_msg["self_id"];
 		this->user_id = raw_msg["user_id"];
 		this->message_id = raw_msg["message_id"];
 	}
 
-	void Event::GroupRecallNotice::parse(){
+	void Event::GroupRecallNotice::parse() {
 		this->time = this->raw_msg["time"];
 		this->self_id = raw_msg["self_id"];
 		this->group_id = raw_msg["group_id"];
@@ -307,24 +327,26 @@ namespace twobot {
 		this->user_id = raw_msg["user_id"];
 	}
 
-	void Event::GroupNotifyNotice::parse(){
+	void Event::GroupNotifyNotice::parse() {
 		this->time = this->raw_msg["time"];
 		this->self_id = raw_msg["self_id"];
 		this->user_id = raw_msg["user_id"];
 		this->group_id = raw_msg["group_id"];
-		if(raw_msg["sub_type"] == "poke"){
+		if (raw_msg["sub_type"] == "poke") {
 			this->sub_type = POKE;
 			this->target_id = raw_msg["target_id"];
-		} else if(raw_msg["sub_type"] == "lucky_king"){
+		}
+		else if (raw_msg["sub_type"] == "lucky_king") {
 			this->sub_type = LUCKY_KING;
 			this->target_id = raw_msg["target_id"];
-		} else{
+		}
+		else {
 			this->sub_type = HONOR;
-			if(raw_msg["honor_type"] == "talkative")
+			if (raw_msg["honor_type"] == "talkative")
 				this->honor_type = TALKATIVE;
-			else if(raw_msg["honor_type"] == "performer")
+			else if (raw_msg["honor_type"] == "performer")
 				this->honor_type = PERFORMER;
-			else if(raw_msg["honor_type"] == "emotion")
+			else if (raw_msg["honor_type"] == "emotion")
 				this->honor_type = EMOTION;
 		}
 	}

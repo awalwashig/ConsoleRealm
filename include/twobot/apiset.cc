@@ -1,6 +1,6 @@
-#include "nlohmann/json_fwd.hpp"
+﻿#include <nlohmann/json_fwd.hpp>
 #include <string>
-#include <twobot.hh>
+#include "twobot.hh"
 #include <httplib.h>
 #include <utility>
 
@@ -331,8 +331,9 @@ namespace twobot {
     }
 
     // ApiResult getImage(const std::string& file);
-    ApiSet::ApiResult ApiSet::getImage(const std::string& file){
+    ApiSet::ApiResult ApiSet::getImage(uint64_t group_id, const std::string& file){
         nlohmann::json data = {
+            {"group_id", group_id},
             {"file", file}
         };
         return callApi("/get_image", data);

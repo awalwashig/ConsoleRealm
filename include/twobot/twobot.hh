@@ -481,7 +481,7 @@ namespace twobot {
             字段名	数据类型	说明
             file	string	下载后的图片文件路径，如 /home/somebody/cqhttp/data/image/6B4DE3DFD1BD271E3297859D41C530F5.jpg
         */
-        ApiResult getImage(const std::string& file);
+        ApiResult getImage(uint64_t group_id, const std::string& file);
 
         /**
         can_send_image 检查是否可以发送图片
@@ -611,7 +611,7 @@ namespace twobot {
             uint64_t group_id; // 群QQ
             
             std::string raw_message; //原始文本消息（含有CQ码）
-            // std::string group_name; // 群的名称
+            std::string group_name; // 群的名称
             enum{
                 NORMAL,     // 正常消息
                 ANONYMOUS,  // 系统消息

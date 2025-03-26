@@ -1,14 +1,24 @@
-#include <iostream>
-#include <dpp/dpp.h>
-
-class qq {
-
-};
-
-class discord {
-
-};
+#include "Application.h"
 
 int main() {
-	std::cout << "test" << std::endl;
+	Realm bot;
+
+	bot.start();
+}
+
+qq::qq(){
+
+}
+
+discord::discord(){
+
+}
+
+Realm::Realm(){
+
+}
+
+Realm& Realm::start(){
+
+	return *this;
 }
