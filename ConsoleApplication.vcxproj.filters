@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="NewFilter1">
+      <UniqueIdentifier>{07799b70-d86d-4e78-8ee2-e272905ae09d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
+    <None Include=".gitattributes" />
+    <None Include=".gitignore" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\config.cpp" />
+    <ClCompile Include="src\message.cpp" />
+    <ClCompile Include="src\Realm.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\config.h" />
+    <ClInclude Include="src\discord.h" />
+    <ClInclude Include="src\message.h" />
+    <ClInclude Include="src\qq.h" />
+    <ClInclude Include="src\Realm.h" />
+  </ItemGroup>
+</Project>
