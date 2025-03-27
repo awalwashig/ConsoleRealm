@@ -138,10 +138,12 @@ twobot::BotInstance& qq::GetInstance() {
 }
 
 void qq::accept(nlohmann::json input) {
+	static const std::string url = Realm::m_instance->GetConifg()["qq"]["useip"].get<std::string>() + "/send_group_msg";
 	std::cout << "QQ: accept" << std::endl;
 
+	input["group_id"] = Realm::m_instance->GetConifg()["qq"]["group"];
 
-	utility::get_http(input,"http://172.22.1.1");
+	utility::get_http(input, url);
 }
 
 qq& qq::main() {
@@ -280,7 +282,19 @@ discord& discord::main() {
 
 		//input["cq"] = std::move(cq);
 
-		input["cq"] = "[CQ:image,file=test.jpg,sub_type=0,url=file:///home/woomy/test.jpg;]";
+		input = {
+		{"message", {
+			{
+				{"data", {
+					{"file", "955344462249345074.webp"},
+					{"sub_type", 1},
+					{"summary", "[动画表情]"},
+					{"url", "file:///home/woomy/955344462249345074.webp"}
+				}},
+				{"type", "image"}
+			}
+		}}
+		};
 
 		callback(input);
 		});
