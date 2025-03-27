@@ -48,6 +48,11 @@ private:
 	std::vector<std::string> Flag;
 };
 
+class utility {
+public:
+	static void get_http(nlohmann::json& jsonDate, std::string url);
+};
+
 class qq {
 public:
 	qq() = default;
@@ -88,8 +93,6 @@ public:
 	void set_send_flag();
 
 	static void accept(nlohmann::json input);
-
-	static void UseWebhook(nlohmann::json& jsonDate, std::string url);
 private:
 	discord& main();
 

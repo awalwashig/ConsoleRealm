@@ -3,7 +3,7 @@
 std::unique_ptr<Realm> Realm::m_instance;
 
 int main() {
-	std::string path{ "/home/woomy/projects/ConsoleApplication/data/config.json" };
+	std::string path{ "/home/awalwashig/projects/ConsoleApplication/data/config.json" };
 
 	Realm::m_instance.reset(new Realm);
 	Realm::m_instance->
@@ -68,6 +68,42 @@ std::string markdown::MarkdownAttachedQQ(std::string&& str) {
 	return str;
 }
 
+
+void utility::get_http(nlohmann::json& jsonDate, std::string url) {
+	std::string jsonStr = jsonDate.dump();
+
+	// 初始化 libcurl
+	curl_global_init(CURL_GLOBAL_DEFAULT);
+	CURL* curl = curl_easy_init();
+	if (curl) {
+		// 设置请求头为 JSON 格式
+		struct curl_slist* headers = nullptr;
+		headers = curl_slist_append(headers, "Content-Type: application/json");
+
+		// 设置请求 URL 和 POST 数据
+		curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+		curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, jsonStr.c_str());
+
+		// 执行请求
+		CURLcode res = curl_easy_perform(curl);
+		if (res != CURLE_OK) {
+			std::cerr << "请求失败: " << curl_easy_strerror(res) << std::endl;
+		}
+		else {
+
+		}
+
+		// 清理资源
+		curl_slist_free_all(headers);
+		curl_easy_cleanup(curl);
+	}
+	else {
+		std::cerr << "初始化 libcurl 失败" << std::endl;
+	}
+	curl_global_cleanup();
+}
+
 qq& qq::reset(nlohmann::json& config) {
 	this->config = config["qq"];
 
@@ -104,11 +140,8 @@ twobot::BotInstance& qq::GetInstance() {
 void qq::accept(nlohmann::json input) {
 	std::cout << "QQ: accept" << std::endl;
 
-	Realm::m_instance->
-		GetInstance().
-		getApiSet().
-		sendGroupMsg(input["group"], input["msg"]);
 
+	utility::get_http(input,"http://172.22.1.1");
 }
 
 qq& qq::main() {
@@ -212,42 +245,7 @@ void discord::accept(nlohmann::json input) {
 
 	Realm::m_instance->set_send_flag();
 
-	UseWebhook(input, Realm::m_instance->GetConifg()["discord"]["webhook"]);
-}
-
-void discord::UseWebhook(nlohmann::json& jsonDate, std::string url) {
-	std::string jsonStr = jsonDate.dump();
-
-	// 初始化 libcurl
-	curl_global_init(CURL_GLOBAL_DEFAULT);
-	CURL* curl = curl_easy_init();
-	if (curl) {
-		// 设置请求头为 JSON 格式
-		struct curl_slist* headers = nullptr;
-		headers = curl_slist_append(headers, "Content-Type: application/json");
-
-		// 设置请求 URL 和 POST 数据
-		curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-		curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, jsonStr.c_str());
-
-		// 执行请求
-		CURLcode res = curl_easy_perform(curl);
-		if (res != CURLE_OK) {
-			std::cerr << "请求失败: " << curl_easy_strerror(res) << std::endl;
-		}
-		else {
-
-		}
-
-		// 清理资源
-		curl_slist_free_all(headers);
-		curl_easy_cleanup(curl);
-	}
-	else {
-		std::cerr << "初始化 libcurl 失败" << std::endl;
-	}
-	curl_global_cleanup();
+	utility::get_http(input, Realm::m_instance->GetConifg()["discord"]["webhook"]);
 }
 
 discord& discord::main() {
@@ -261,18 +259,28 @@ discord& discord::main() {
 		nlohmann::json input;
 		input["group"] = Realm::m_instance->GetConifg()["qq"]["group"];
 
-		markdown MK;
+		//markdown MK;
+
+		//std::string cq = "[CQ:";
+
+		//std::string content = MK.MarkdownRemove(event.msg.content);
+		//if (Obj != event.msg.author.global_name || send_flag) {
+		//	input["cq"] = event.msg.author.global_name + ":" + MK.MarkdownAttachedQQ(std::move(content));
 
 
-		std::string content = MK.MarkdownRemove(event.msg.content);
-		if (Obj == event.msg.author.global_name && !send_flag) {
-			input["msg"] = MK.MarkdownAttachedQQ(std::move(content));
-		}
-		else {
-			input["msg"] = event.msg.author.global_name + ":" + MK.MarkdownAttachedQQ(std::move(content));
-			Obj = event.msg.author.global_name;
-			send_flag = 0;
-		}
+
+		//	Obj = event.msg.author.global_name;
+		//	send_flag = 0;
+		//}
+		//else {
+		//	input["cq"] = MK.MarkdownAttachedQQ(std::move(content));
+		//}
+
+		//cq += "]";
+
+		//input["cq"] = std::move(cq);
+
+		input["cq"] = "[CQ:image,file=test.jpg,sub_type=0,url=file:///home/woomy/test.jpg;]";
 
 		callback(input);
 		});
