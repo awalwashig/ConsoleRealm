@@ -473,15 +473,9 @@ namespace twobot {
         ApiResult getRecord(const std::string& file, const std::string& out_format);
 
         /**
-        get_image 获取图片
-        参数
-            字段名	数据类型	默认值	说明
-            file	string	-	收到的图片文件名（消息段的 file 参数），如 6B4DE3DFD1BD271E3297859D41C530F5.jpg
-        响应数据
-            字段名	数据类型	说明
-            file	string	下载后的图片文件路径，如 /home/somebody/cqhttp/data/image/6B4DE3DFD1BD271E3297859D41C530F5.jpg
+        * 修改
         */
-        ApiResult getImage(uint64_t group_id, const std::string& file);
+        ApiResult getImage(const std::string& file_id);
 
         /**
         can_send_image 检查是否可以发送图片

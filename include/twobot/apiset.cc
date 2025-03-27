@@ -331,10 +331,9 @@ namespace twobot {
     }
 
     // ApiResult getImage(const std::string& file);
-    ApiSet::ApiResult ApiSet::getImage(uint64_t group_id, const std::string& file){
+    ApiSet::ApiResult ApiSet::getImage(const std::string& file_id){
         nlohmann::json data = {
-            {"group_id", group_id},
-            {"file", file}
+            {"file_id", file_id}
         };
         return callApi("/get_image", data);
     }
