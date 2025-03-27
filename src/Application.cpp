@@ -129,13 +129,13 @@ qq& qq::main() {
 		//TODO
 		for (auto& data : msg.raw_msg["message"]) {
 			if (data["type"] == "text") {
-				tmp_message += data["text"].get<std::string>() + "\n";
+				tmp_message += data["data"]["text"].get<std::string>() + "\n";
 
 				continue;
 			}
 
 			if (data["type"] == "image") {
-				tmp_message += get_image_url(data["file"].get<std::string>()) + "\n";
+				tmp_message += get_image_url(data["data"]["file"].get<std::string>()) + "\n";
 
 				continue;
 			}
@@ -165,16 +165,18 @@ qq& qq::main() {
 
 //看网址托管情况为定
 std::string qq::get_image_url(std::string file_id) {
+	static const std::string prefix = "/root/.config/QQ";
+
 	if (!m_qq->getApiSet().getImage(file_id).second["data"]["file"].is_null()) {
 		std::string message = m_qq->getApiSet().getImage(file_id).second["data"]["file"].get<std::string>();
 
-		static const std::string prefix = "/root/.config/QQ";
+		//史
+		std::string cmd = "sudo mv -f " + message + " " + message + ".gif";
+		system(cmd.c_str());
+		//End
+
 		message.erase(0, prefix.length());
-
-		message = config["domain_name"].get<std::string>() + message;
-
-		//debug
-		std::cout << message << std::endl;
+		message = config["domain_name"].get<std::string>() + message + ".gif"; //gif为史
 
 		return message;
 	}
