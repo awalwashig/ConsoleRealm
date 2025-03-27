@@ -146,14 +146,6 @@ qq& qq::main() {
 			}
 		}
 
-		////image 好好的调用api吧（
-		//if (!msg.raw_msg["raw"]["picElement"].is_null()) {
-		//	for (auto& data : msg.raw_msg["raw"]["picElement"]) {
-		//		tmp_message += get_image_url(data["sourcePath"].get<std::string>()) + "\n";
-		//	};
-		//}
-
-
 		input["content"] = std::move(tmp_message);
 		input["username"] = msg.raw_msg["sender"]["nickname"];
 		input["avatar_url"] = std::string("https://q.qlogo.cn/headimg_dl?dst_uin=") + std::string(std::to_string((int)msg.user_id)) + std::string("&spec=2&img_type=jpg");
