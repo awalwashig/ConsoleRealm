@@ -3,7 +3,7 @@
 std::unique_ptr<Realm> Realm::m_instance;
 
 int main() {
-	std::string path{ "/home/awalwashig/projects/ConsoleApplication/data/config.json" };
+	std::string path{ "/home/woomy/projects/ConsoleApplication/data/config.json" };
 
 	Realm::m_instance.reset(new Realm);
 	Realm::m_instance->
@@ -125,24 +125,26 @@ qq& qq::main() {
 		nlohmann::json input;
 
 		std::string tmp_message = "";
-		for (auto& data : msg.raw_msg) {
 
-			//TODO:处理消息
-			if (!data[""].is_null()) {
-				tmp_message += data[""];
+		//TODO
+		for (auto& data : msg.raw_msg["message"]) {
+			if (data["type"] == "text") {
+				tmp_message += data["text"].get<std::string>() + "\n";
+
+				continue;
 			}
 
-			//TODO:处理引用 
-			if (!data[""].is_null()) {
-
-
-				tmp_message += data[""];
+			//不用处理，webhook不能回复
+			if (data["type"] == "reply") {
+				continue;
 			}
+		}
 
-			//TODO:处理图片
-			if (!data[""].is_null()) {
-				tmp_message += get_image_url(std::move(data[""].get<std::string>()));
-			}
+		//image
+		if (!msg.raw_msg["raw"]["picElement"].is_null()) {
+			for (auto& data : msg.raw_msg["raw"]["picElement"]) {
+				tmp_message += get_image_url(data["sourcePath"].get<std::string>()) + "\n";
+			};
 		}
 
 
@@ -156,8 +158,7 @@ qq& qq::main() {
 }
 
 //看网址托管情况为定
-std::string qq::get_image_url(std::string file_id) {
-	auto obj = m_qq->getApiSet().getImage(file_id).second;
+std::string qq::get_image_url(std::string path) {
 
 	return std::string();
 }
