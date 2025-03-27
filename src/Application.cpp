@@ -124,7 +124,13 @@ qq& qq::main() {
 		}
 		nlohmann::json input;
 
-		m_qq->getApiSet().getImage();
+		//处理图片
+		for (const auto& data : msg.raw_msg) {
+			if (data[""].is_null()) {
+				m_qq->getApiSet().getImage("");
+			}
+		}
+
 
 		input["content"] = msg.raw_message;
 		input["username"] = msg.raw_msg["sender"]["nickname"];
@@ -263,8 +269,8 @@ Realm& Realm::start() {
 
 /*
 * 通用：消息队列，建立好hash表对双方映射;
-* 
+*
 * discord：处理正则表达（表情符号）并保存挂在服务上面;
-* 
+*
 * qq处理一堆破事分类好qq喂过来的史;
 */
