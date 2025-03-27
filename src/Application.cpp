@@ -124,21 +124,42 @@ qq& qq::main() {
 		}
 		nlohmann::json input;
 
-		//处理图片
-		for (const auto& data : msg.raw_msg) {
-			if (data[""].is_null()) {
-				m_qq->getApiSet().getImage("");
+		std::string tmp_message = "";
+		for (auto& data : msg.raw_msg) {
+
+			//TODO:处理消息
+			if (!data[""].is_null()) {
+				tmp_message += data[""];
+			}
+
+			//TODO:处理引用 
+			if (!data[""].is_null()) {
+
+
+				tmp_message += data[""];
+			}
+
+			//TODO:处理图片
+			if (!data[""].is_null()) {
+				tmp_message += get_image_url(std::move(data[""].get<std::string>()));
 			}
 		}
 
 
-		input["content"] = msg.raw_message;
+		input["content"] = std::move(tmp_message);
 		input["username"] = msg.raw_msg["sender"]["nickname"];
 		input["avatar_url"] = std::string("https://q.qlogo.cn/headimg_dl?dst_uin=") + std::string(std::to_string((int)msg.user_id)) + std::string("&spec=2&img_type=jpg");
 
 		callback(input);
 		});
 	return *this;
+}
+
+//看网址托管情况为定
+std::string qq::get_image_url(std::string file_id) {
+	auto obj = m_qq->getApiSet().getImage(file_id).second;
+
+	return std::string();
 }
 
 discord::discord(nlohmann::json& config) {

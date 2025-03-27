@@ -22,20 +22,20 @@ private:
 	std::unique_ptr<nlohmann::json> m_config;
 };
 
-class make_hash {
-public:
-	make_hash();
-
-	void reset();
-
-	void push(nlohmann::json message);
-
-	void update();
-private:
-	std::unordered_map<std::string, std::string> hash_map;
-
-	std::unique_ptr<make_hash> m_make_hash;
-};
+//class make_hash {
+//public:
+//	make_hash();
+//
+//	void reset();
+//
+//	void push(nlohmann::json message);
+//
+//	void update();
+//private:
+//	std::unordered_map<std::string, std::string> hash_map;
+//
+//	std::unique_ptr<make_hash> m_make_hash;
+//};
 
 class markdown {
 public:
@@ -65,7 +65,7 @@ public:
 private:
 	qq& main();
 
-
+	std::string get_image_url(std::string file_id);
 private:
 	std::function<void(nlohmann::json)> callback;
 
