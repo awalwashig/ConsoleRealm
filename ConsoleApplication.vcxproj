@@ -35,7 +35,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{d8a9e264-cb51-47e5-8f64-30dfc15d369a}</ProjectGuid>
+    <ProjectGuid>{6d3896a5-e72f-462d-b158-60abb5458b5b}</ProjectGuid>
     <Keyword>Linux</Keyword>
     <RootNamespace>ConsoleApplication</RootNamespace>
     <MinimumVisualStudioVersion>15.0</MinimumVisualStudioVersion>
@@ -74,131 +74,106 @@
   <ImportGroup Label="Shared" />
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
-    <MultiProcNumber>3</MultiProcNumber>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
-    <MultiProcNumber>12</MultiProcNumber>
-    <IncludePath>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\src\RealmQQ\twobot\include;$(IncludePath)</IncludePath>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <MultiProcNumber>9</MultiProcNumber>
-    <IncludePath>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\src\RealmQQ\twobot\include;$(IncludePath)</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
-    <MultiProcNumber>3</MultiProcNumber>
   </PropertyGroup>
   <ItemGroup>
     <None Include=".gitattributes" />
     <None Include=".gitignore" />
-    <None Include="date\config.json" />
+    <None Include="data\config.json" />
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\twobot\apiset.cc" />
+    <ClCompile Include="include\twobot\twobot.cc" />
     <ClCompile Include="src\Application.cpp" />
-    <ClCompile Include="src\base\Config.cpp" />
-    <ClCompile Include="src\RealmDC\LinkQQ.cpp" />
-    <ClCompile Include="src\RealmDC\RealmDC.cpp" />
-    <ClCompile Include="src\RealmDC\RealmHashDC.cpp" />
-    <ClCompile Include="src\RealmDC\slashcommand.cpp" />
-    <ClCompile Include="src\RealmQQ\LinkDC.cpp" />
-    <ClCompile Include="src\RealmQQ\RealmHashQQ.cpp" />
-    <ClCompile Include="src\RealmQQ\RealmQQ.cpp" />
-    <ClCompile Include="src\RealmQQ\twobot\apiset.cc" />
-    <ClCompile Include="src\RealmQQ\twobot\twobot.cc" />
-    <ClCompile Include="src\start.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\twobot\include\brynet\base\Any.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\base\AppStatus.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\base\Array.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\base\Buffer.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\base\CPP_VERSION.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\base\crypto\Base64.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\base\crypto\SHA1.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\base\endian\Endian.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\base\Noexcept.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\base\NonCopyable.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\base\Packet.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\base\Platform.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\base\Stack.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\base\Timer.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\base\WaitGroup.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\AsyncConnector.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\Channel.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\CurrentThread.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\detail\ConnectionOption.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\detail\ConnectorDetail.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\detail\ConnectorWorkInfo.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\detail\IOLoopData.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\detail\ListenThreadDetail.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\detail\TCPServiceDetail.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\detail\WakeupChannel.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\EventLoop.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\Exception.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\http\HttpFormat.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\http\HttpParser.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\http\HttpService.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\http\http_parser.h" />
+    <ClInclude Include="include\twobot\include\brynet\net\http\WebSocketFormat.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\ListenThread.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\Poller.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\port\Win.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\PromiseReceive.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\SendableMsg.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\Socket.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\SocketLibFunction.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\SocketLibTypes.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\SSLHelper.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\TcpConnection.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\TcpService.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\wrapper\ConnectionBuilder.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\wrapper\HttpConnectionBuilder.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\wrapper\HttpServiceBuilder.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\wrapper\ServiceBuilder.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\Version.hpp" />
+    <ClInclude Include="include\twobot\twobot.hh" />
     <ClInclude Include="src\Application.h" />
-    <ClInclude Include="src\base\Config.h" />
-    <ClInclude Include="src\RealmDC\LinkQQ.h" />
-    <ClInclude Include="src\RealmDC\RealmDC.h" />
-    <ClInclude Include="src\RealmDC\RealmHashDC.h" />
-    <ClInclude Include="src\RealmDC\slashcommand.h" />
-    <ClInclude Include="src\RealmQQ\LinkDC.h" />
-    <ClInclude Include="src\RealmQQ\RealmHashQQ.h" />
-    <ClInclude Include="src\RealmQQ\RealmQQ.h" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\base\Any.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\base\AppStatus.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\base\Array.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\base\Buffer.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\base\CPP_VERSION.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\base\crypto\Base64.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\base\crypto\SHA1.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\base\endian\Endian.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\base\Noexcept.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\base\NonCopyable.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\base\Packet.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\base\Platform.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\base\Stack.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\base\Timer.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\base\WaitGroup.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\AsyncConnector.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\Channel.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\CurrentThread.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\detail\ConnectionOption.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\detail\ConnectorDetail.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\detail\ConnectorWorkInfo.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\detail\IOLoopData.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\detail\ListenThreadDetail.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\detail\TCPServiceDetail.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\detail\WakeupChannel.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\EventLoop.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\Exception.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\http\HttpFormat.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\http\HttpParser.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\http\HttpService.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\http\http_parser.h" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\http\WebSocketFormat.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\ListenThread.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\Poller.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\port\Win.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\PromiseReceive.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\SendableMsg.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\Socket.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\SocketLibFunction.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\SocketLibTypes.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\SSLHelper.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\TcpConnection.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\TcpService.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\wrapper\ConnectionBuilder.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\wrapper\HttpConnectionBuilder.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\wrapper\HttpServiceBuilder.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\net\wrapper\ServiceBuilder.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\include\brynet\Version.hpp" />
-    <ClInclude Include="src\RealmQQ\twobot\twobot.hh" />
   </ItemGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Link>
+      <LibraryDependencies>dpp;pthread;curl</LibraryDependencies>
+    </Link>
+    <ClCompile>
+      <CppLanguageStandard>c++20</CppLanguageStandard>
+      <AdditionalIncludeDirectories>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include\twobot\include;C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include\twobot;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include\twobot\include;C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include\twobot;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CppLanguageStandard>c++20</CppLanguageStandard>
     </ClCompile>
     <Link>
-      <LibraryDependencies>dpp;jsoncpp;pthread</LibraryDependencies>
+      <LibraryDependencies>dpp;pthread;curl</LibraryDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include\twobot\include;C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include\twobot;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CppLanguageStandard>c++20</CppLanguageStandard>
     </ClCompile>
     <Link>
-      <LibraryDependencies>dpp;jsoncpp;pthread</LibraryDependencies>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ClCompile>
-      <CppLanguageStandard>c++20</CppLanguageStandard>
-      <Optimization>Disabled</Optimization>
-    </ClCompile>
-    <Link>
-      <LibraryDependencies>dpp;jsoncpp;pthread;curl</LibraryDependencies>
+      <LibraryDependencies>dpp;pthread;curl</LibraryDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include\twobot\include;C:\Users\Administrator\source\repos\ConsoleApplication\ConsoleApplication\include\twobot;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CppLanguageStandard>c++20</CppLanguageStandard>
     </ClCompile>
     <Link>
-      <LibraryDependencies>dpp;jsoncpp;pthread</LibraryDependencies>
+      <LibraryDependencies>dpp;pthread;curl</LibraryDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

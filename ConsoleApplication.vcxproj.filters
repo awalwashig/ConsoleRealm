@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="NewFilter1">
+      <UniqueIdentifier>{07799b70-d86d-4e78-8ee2-e272905ae09d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
+    <None Include=".gitattributes" />
+    <None Include=".gitignore" />
+    <None Include="data\config.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="include\twobot\apiset.cc" />
+    <ClCompile Include="include\twobot\twobot.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\twobot\include\brynet\base\Any.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\base\AppStatus.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\base\Array.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\base\Buffer.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\base\CPP_VERSION.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\base\crypto\Base64.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\base\crypto\SHA1.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\base\endian\Endian.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\base\Noexcept.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\base\NonCopyable.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\base\Packet.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\base\Platform.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\base\Stack.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\base\Timer.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\base\WaitGroup.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\AsyncConnector.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\Channel.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\CurrentThread.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\detail\ConnectionOption.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\detail\ConnectorDetail.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\detail\ConnectorWorkInfo.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\detail\IOLoopData.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\detail\ListenThreadDetail.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\detail\TCPServiceDetail.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\detail\WakeupChannel.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\EventLoop.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\Exception.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\http\HttpFormat.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\http\HttpParser.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\http\HttpService.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\http\http_parser.h" />
+    <ClInclude Include="include\twobot\include\brynet\net\http\WebSocketFormat.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\ListenThread.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\Poller.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\port\Win.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\PromiseReceive.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\SendableMsg.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\Socket.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\SocketLibFunction.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\SocketLibTypes.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\SSLHelper.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\TcpConnection.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\TcpService.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\wrapper\ConnectionBuilder.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\wrapper\HttpConnectionBuilder.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\wrapper\HttpServiceBuilder.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\net\wrapper\ServiceBuilder.hpp" />
+    <ClInclude Include="include\twobot\include\brynet\Version.hpp" />
+    <ClInclude Include="include\twobot\twobot.hh" />
+    <ClInclude Include="src\Application.h" />
+  </ItemGroup>
+</Project>
