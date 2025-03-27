@@ -281,6 +281,10 @@ discord& discord::main() {
 
 		//附件
 		for (auto& obj : event.msg.attachments) {
+			if (!isImageFile(obj.filename)) {
+				continue;
+			}
+
 			nlohmann::json res = {
 			{"data", {
 				{"file", ""},
@@ -356,6 +360,26 @@ nlohmann::json discord::emoji(std::string& obj) {
 	obj = std::regex_replace(obj, emojiPattern, "");
 
 	return res;
+}
+
+bool discord::isImageFile(const std::string& filename) {
+	// 查找最后一个点的位置
+	size_t pos = filename.find_last_of(".");
+	if (pos == std::string::npos) {
+		return false;  // 没有扩展名
+	}
+	// 获取扩展名
+	std::string ext = filename.substr(pos + 1);
+	// 将扩展名转换为小写
+	std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
+
+	// 定义常见的图片格式集合
+	static const std::set<std::string> imageExtensions = {
+		"jpg", "jpeg", "png", "gif", "bmp", "tiff", "tif", "webp"
+	};
+
+	// 判断扩展名是否在图片格式集合中
+	return { imageExtensions.find(ext) != imageExtensions.end() };
 }
 
 Realm::Realm(std::string& config) {

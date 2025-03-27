@@ -97,6 +97,8 @@ private:
 	discord& main();
 
 	nlohmann::json emoji(std::string& obj);
+
+	bool isImageFile(const std::string& filename);
 private:
 
 	bool send_flag = 0;
