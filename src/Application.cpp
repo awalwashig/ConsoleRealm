@@ -140,9 +140,6 @@ twobot::BotInstance& qq::GetInstance() {
 void qq::accept(nlohmann::json input) {
 	static const std::string url = Realm::m_instance->GetConifg()["qq"]["useip"].get<std::string>() + "/send_group_msg";
 	std::cout << "QQ: accept" << std::endl;
-
-	input["group_id"] = Realm::m_instance->GetConifg()["qq"]["group"];
-
 	utility::get_http(input, url);
 }
 
@@ -261,45 +258,77 @@ discord& discord::main() {
 		nlohmann::json input;
 		input["group"] = Realm::m_instance->GetConifg()["qq"]["group"];
 
-		//markdown MK;
+		markdown MK;
 
-		//std::string cq = "[CQ:";
+		std::string content = MK.MarkdownRemove(event.msg.content);
+		if (Obj != event.msg.author.global_name || send_flag) {
+			content = event.msg.author.global_name + ":" + MK.MarkdownAttachedQQ(std::move(content));
 
-		//std::string content = MK.MarkdownRemove(event.msg.content);
-		//if (Obj != event.msg.author.global_name || send_flag) {
-		//	input["cq"] = event.msg.author.global_name + ":" + MK.MarkdownAttachedQQ(std::move(content));
+			Obj = event.msg.author.global_name;
+			send_flag = 0;
+		}
+		else {
+			content = MK.MarkdownAttachedQQ(std::move(content));
+		}
 
+		input["message"] = emoji(content);
 
+		if (content != "") {
+			nlohmann::json obj;
+			obj["data"]["text"] = content;
+			obj["type"] = "text";
+			input["message"].push_back(std::move(obj));
+		}
 
-		//	Obj = event.msg.author.global_name;
-		//	send_flag = 0;
-		//}
-		//else {
-		//	input["cq"] = MK.MarkdownAttachedQQ(std::move(content));
-		//}
+		std::cout << input.dump() << std::endl;
 
-		//cq += "]";
-
-		//input["cq"] = std::move(cq);
-
-		input = {
-		{"message", {
-			{
-				{"data", {
-					{"file", "955344462249345074.webp"},
-					{"sub_type", 1},
-					{"summary", "[动画表情]"},
-					{"url", "file:///home/woomy/955344462249345074.webp"}
-				}},
-				{"type", "image"}
-			}
-		}}
-		};
-
+		input["group_id"] = Realm::m_instance->GetConifg()["qq"]["group"];
 		callback(input);
 		});
 
 	return *this;
+}
+
+nlohmann::json discord::emoji(std::string& obj) {
+	static std::unordered_map<std::string, bool> cache;
+	nlohmann::json res;
+	std::smatch match;
+	std::string cmd = "wget ";
+	std::regex pattern("<:[^:]+:(\\d+)>");
+
+	int index = 0;
+	while (std::regex_search(obj, match, pattern)) {
+		res[index] = {
+			{"data", {
+				{"file", ""},
+				{"sub_type", 1},
+				{"summary", "[动画表情]"},
+				{"url", ""}
+			}},
+			{"type", "image"}
+
+		};
+
+		//史
+		if (cache[match[1].str()] == bool()) {
+			cmd = cmd + "https://cdn.discordapp.com/emojis/" + match[1].str() + ".webp";
+			system(std::string("mkdir -p " + config["cache"].get<std::string>()).c_str());
+			system(cmd.c_str());
+			system(std::string("mv -f " + match[1].str() + ".webp " + config["cache"].get<std::string>()).c_str());
+
+			cache[match[1].str()] = true;
+		}
+
+		res[index]["data"]["file"] = match[1].str() + ".webp";
+		res[index]["data"]["url"] = "file://" + config["cache"].get<std::string>() + "/" + match[1].str() + ".webp";
+
+		obj = match.suffix().str();
+		index++;
+	}
+
+	std::cout << res.dump() << std::endl;
+
+	return res;
 }
 
 Realm::Realm(std::string& config) {

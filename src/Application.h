@@ -96,7 +96,7 @@ public:
 private:
 	discord& main();
 
-
+	nlohmann::json emoji(std::string& obj);
 private:
 
 	bool send_flag = 0;
