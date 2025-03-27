@@ -3,7 +3,7 @@
 std::unique_ptr<Realm> Realm::m_instance;
 
 int main() {
-	std::string path{ "/home/awalwashig/projects/ConsoleApplication/data/config.json" };
+	std::string path{ "/home/woomy/projects/ConsoleApplication/data/config.json" };
 
 	Realm::m_instance.reset(new Realm);
 	Realm::m_instance->
@@ -180,8 +180,14 @@ qq& qq::main() {
 		}
 
 		input["content"] = std::move(tmp_message);
-		input["username"] = msg.raw_msg["sender"]["nickname"];
-		input["avatar_url"] = std::string("https://q.qlogo.cn/headimg_dl?dst_uin=") + std::string(std::to_string((int)msg.user_id)) + std::string("&spec=2&img_type=jpg");
+		input["avatar_url"] = std::string("https://q.qlogo.cn/headimg_dl?dst_uin=") + std::string(std::to_string((int)msg.user_id)) + std::string("&spec=640&img_type=jpg");
+
+		if (msg.raw_msg["sender"]["card"].size() > 0) {
+			input["username"] = msg.raw_msg["sender"]["card"];
+		}
+		else {
+			input["username"] = msg.raw_msg["sender"]["nickname"];
+		}
 
 		callback(input);
 		});
