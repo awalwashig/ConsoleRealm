@@ -3,7 +3,7 @@
 std::unique_ptr<Realm> Realm::m_instance;
 
 int main() {
-	std::string path{ "/home/woomy/projects/ConsoleApplication/data/config.json" };
+	std::string path{ "/home/awalwashig/projects/ConsoleApplication/data/config.json" };
 
 	Realm::m_instance.reset(new Realm);
 	Realm::m_instance->
@@ -249,6 +249,7 @@ void discord::accept(nlohmann::json input) {
 
 discord& discord::main() {
 	m_cluster->on_message_create([&](const dpp::message_create_t& event) {
+		std::cout << event.msg.content << std::endl;
 		static std::string Obj = "";
 
 		if (event.msg.author.is_bot() || event.msg.channel_id != config["channel"].get<dpp::snowflake>()) {
@@ -256,7 +257,7 @@ discord& discord::main() {
 		}
 
 		nlohmann::json input;
-		input["group"] = Realm::m_instance->GetConifg()["qq"]["group"];
+		input["group_id"] = Realm::m_instance->GetConifg()["qq"]["group"];
 
 		markdown MK;
 
@@ -273,6 +274,8 @@ discord& discord::main() {
 
 		input["message"] = emoji(content);
 
+		std::cout << content << std::endl;
+
 		if (content != "") {
 			nlohmann::json obj;
 			obj["data"]["text"] = content;
@@ -282,7 +285,6 @@ discord& discord::main() {
 
 		std::cout << input.dump() << std::endl;
 
-		input["group_id"] = Realm::m_instance->GetConifg()["qq"]["group"];
 		callback(input);
 		});
 
@@ -294,10 +296,11 @@ nlohmann::json discord::emoji(std::string& obj) {
 	nlohmann::json res;
 	std::smatch match;
 	std::string cmd = "wget ";
-	std::regex pattern("<:[^:]+:(\\d+)>");
+	std::regex emojiPattern("<:[^:]+:(\\d+)>");
 
 	int index = 0;
-	while (std::regex_search(obj, match, pattern)) {
+	std::string s = obj;
+	while (std::regex_search(s, match, emojiPattern)) {
 		res[index] = {
 			{"data", {
 				{"file", ""},
@@ -322,11 +325,10 @@ nlohmann::json discord::emoji(std::string& obj) {
 		res[index]["data"]["file"] = match[1].str() + ".webp";
 		res[index]["data"]["url"] = "file://" + config["cache"].get<std::string>() + "/" + match[1].str() + ".webp";
 
-		obj = match.suffix().str();
+		s = match.suffix().str();
 		index++;
 	}
-
-	std::cout << res.dump() << std::endl;
+	obj = std::regex_replace(obj, emojiPattern, "");
 
 	return res;
 }
