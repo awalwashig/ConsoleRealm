@@ -43,7 +43,7 @@ public:
 
 	std::string MarkdownRemove(std::string str);
 
-	std::string MarkdownAttached(std::string&& str);
+	std::string MarkdownAttachedQQ(std::string&& str);
 private:
 	std::vector<std::string> Flag;
 };
@@ -92,6 +92,7 @@ public:
 	static void UseWebhook(nlohmann::json& jsonDate, std::string url);
 private:
 	discord& main();
+
 
 private:
 

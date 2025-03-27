@@ -60,7 +60,7 @@ std::string markdown::MarkdownRemove(std::string str) {
 	return str;
 }
 
-std::string markdown::MarkdownAttached(std::string&& str) {
+std::string markdown::MarkdownAttachedQQ(std::string&& str) {
 	for (const auto& Obj : Flag) {
 		str = str + Obj;
 		std::cout << str << std::endl;
@@ -108,6 +108,7 @@ void qq::accept(nlohmann::json input) {
 		GetInstance().
 		getApiSet().
 		sendGroupMsg(input["group"], input["msg"]);
+
 }
 
 qq& qq::main() {
@@ -265,10 +266,10 @@ discord& discord::main() {
 
 		std::string content = MK.MarkdownRemove(event.msg.content);
 		if (Obj == event.msg.author.global_name && !send_flag) {
-			input["msg"] = MK.MarkdownAttached(std::move(content));
+			input["msg"] = MK.MarkdownAttachedQQ(std::move(content));
 		}
 		else {
-			input["msg"] = event.msg.author.global_name + ":" + MK.MarkdownAttached(std::move(content));
+			input["msg"] = event.msg.author.global_name + ":" + MK.MarkdownAttachedQQ(std::move(content));
 			Obj = event.msg.author.global_name;
 			send_flag = 0;
 		}
