@@ -3,7 +3,7 @@
 std::unique_ptr<Realm> Realm::m_instance;
 
 int main() {
-	std::string path{ "/home/awalwashig/projects/ConsoleApplication/data/config.json" };
+	std::string path{ "/home/woomy/projects/ConsoleApplication/data/config.json" };
 
 	Realm::m_instance.reset(new Realm);
 	Realm::m_instance->
