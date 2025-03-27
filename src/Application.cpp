@@ -134,6 +134,12 @@ qq& qq::main() {
 				continue;
 			}
 
+			if (data["type"] == "image") {
+				tmp_message += get_image_url(data["file"].get<std::string>()) + "\n";
+
+				continue;
+			}
+
 			//不用处理，webhook不能回复
 			if (data["type"] == "reply") {
 				continue;
@@ -158,8 +164,20 @@ qq& qq::main() {
 }
 
 //看网址托管情况为定
-std::string qq::get_image_url(std::string path) {
+std::string qq::get_image_url(std::string file_id) {
+	if (!m_qq->getApiSet().getImage(file_id).second["data"]["file"].is_null()) {
+		std::string message = m_qq->getApiSet().getImage(file_id).second["data"]["file"].get<std::string>();
 
+		static const std::string prefix = "/root/.config/QQ";
+		message.erase(0, prefix.length());
+
+		message = config["domain_name"].get<std::string>() + message;
+
+		//debug
+		std::cout << message << std::endl;
+
+		return message;
+	}
 	return std::string();
 }
 

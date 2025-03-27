@@ -65,7 +65,7 @@ public:
 private:
 	qq& main();
 
-	std::string get_image_url(std::string path);
+	std::string get_image_url(std::string file_id);
 private:
 	std::function<void(nlohmann::json)> callback;
 
