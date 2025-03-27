@@ -182,7 +182,7 @@ qq& qq::main() {
 		input["content"] = std::move(tmp_message);
 		input["avatar_url"] = std::string("https://q.qlogo.cn/headimg_dl?dst_uin=") + std::string(std::to_string((int)msg.user_id)) + std::string("&spec=640&img_type=jpg");
 
-		if (msg.raw_msg["sender"]["card"].size() > 0) {
+		if (msg.raw_msg["sender"]["card"] != "") {
 			input["username"] = msg.raw_msg["sender"]["card"];
 		}
 		else {
@@ -255,7 +255,6 @@ void discord::accept(nlohmann::json input) {
 
 discord& discord::main() {
 	m_cluster->on_message_create([&](const dpp::message_create_t& event) {
-		std::cout << event.msg.content << std::endl;
 		static std::string Obj = "";
 
 		if (event.msg.author.is_bot() || event.msg.channel_id != config["channel"].get<dpp::snowflake>()) {
@@ -279,6 +278,27 @@ discord& discord::main() {
 		}
 
 		input["message"] = emoji(content);
+
+		//附件
+		for (auto& obj : event.msg.attachments) {
+			nlohmann::json res = {
+			{"data", {
+				{"file", ""},
+				{"sub_type", 1},
+				{"summary", "[动画表情]"},
+				{"url", ""}
+			}},
+			{"type", "image"}
+			};
+
+			system(std::string("curl -L -o " + obj.filename + " \"" + obj.url + "\"").c_str());
+			system(std::string("sudo mv " + obj.filename + " /root/.config/QQ/NapCat/temp/").c_str());
+
+			res["data"]["file"] = obj.filename;
+			res["data"]["url"] = "file:///root/.config/QQ/NapCat/temp/" + obj.filename;
+
+			input["message"].push_back(std::move(res));
+		}
 
 		std::cout << content << std::endl;
 
@@ -315,7 +335,6 @@ nlohmann::json discord::emoji(std::string& obj) {
 				{"url", ""}
 			}},
 			{"type", "image"}
-
 		};
 
 		//史
