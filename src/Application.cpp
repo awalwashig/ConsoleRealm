@@ -43,13 +43,19 @@ void make_hash::push(make_link_type obj) {
 	tmp_link.push_back(obj);
 }
 
-void make_hash::check(nlohmann::json& obj) {
+void make_hash::check(make_link_type& obj) {
+	auto [obj_name, obj_content, obj_ID] = obj;
+
 	for (int index = 0; index < tmp_link.size(); index++) {
-		if (tmp_link[index] != make_link_type{ obj["name"], obj["content"], obj["message_id"]}) {
+		auto& [name, content, ID] = tmp_link[index];
+
+		if (name != obj_name || content != content) {
 			continue;
 		}
 
-
+		//link
+		hash_map[ID] = obj;
+		hash_map[obj_ID] = std::move(tmp_link[index]);
 	}
 }
 
