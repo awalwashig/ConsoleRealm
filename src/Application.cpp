@@ -295,7 +295,7 @@ discord& discord::start(dpp::start_type start) {
 	return *this;
 }
 
-dpp::cluster& discord::get_cluster(){
+dpp::cluster& discord::get_cluster() {
 	return *m_cluster;
 }
 
@@ -341,6 +341,22 @@ discord& discord::main() {
 		}
 
 		input["message"] = emoji(content);
+
+		//回复
+		if (!event.msg.message_reference.message_id.empty()) {
+			nlohmann::json res = {
+			{"data", {
+				{"id", ""},
+			}},
+			{"type", "reply"}
+			};
+
+			res["data"]["id"] = std::to_string(Realm::m_instance->get_hash_map()[event.msg.message_reference.message_id]);
+
+			input["message"].push_back(std::move(res));
+		}
+
+		//@
 
 		//附件
 		for (auto& obj : event.msg.attachments) {
