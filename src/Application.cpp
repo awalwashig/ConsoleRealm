@@ -204,12 +204,6 @@ qq& qq::main() {
 
 		Realm::m_instance->set_link(msg.raw_msg["message_id"].get<uint64_t>());
 
-		//链接
-		if (msg.user_id == config["bot_qq_id"].get<uint64_t>()) {
-			std::cout << "-----------" << std::endl;
-			return;
-		}
-
 		std::string tmp_message = "";
 		for (auto& data : msg.raw_msg["message"]) {
 			if (data["type"] == "text") {
