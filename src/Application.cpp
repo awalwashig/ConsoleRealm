@@ -182,16 +182,21 @@ qq& qq::main() {
 	using namespace twobot::Event;
 
 	m_qq->onEvent<GroupMsg>([&](const GroupMsg& msg) {
+		//史
 		std::cout << msg.raw_msg << std::endl;
 
 		if (msg.group_id != config["group"]) {
 			return;
 		}
+
+		if (msg.user_id == config["bot_qq_id"].get<uint64_t>()) {
+			Realm::m_instance->check({ event.msg.author.global_name,event.msg.content ,event.msg.id });
+			return;
+		}
+
 		nlohmann::json input;
 
 		std::string tmp_message = "";
-
-		//TODO
 		for (auto& data : msg.raw_msg["message"]) {
 			if (data["type"] == "text") {
 				tmp_message += data["data"]["text"].get<std::string>() + "\n";
@@ -289,12 +294,12 @@ discord& discord::main() {
 	m_cluster->on_message_create([&](const dpp::message_create_t& event) {
 		static std::string Obj = "";
 
-		if (event.msg.author.is_bot()) {
-			Realm::m_instance->check({ event.msg.author.global_name,event.msg.content ,event.msg.id });
+		if (event.msg.channel_id != config["channel"].get<dpp::snowflake>()) {
 			return;
 		}
 
-		if (event.msg.channel_id != config["channel"].get<dpp::snowflake>()) {
+		if (event.msg.author.is_bot() || event.msg.channel_id != config["channel"].get<dpp::snowflake>()) {
+			Realm::m_instance->check({ event.msg.author.global_name,event.msg.content ,event.msg.id });
 			return;
 		}
 
