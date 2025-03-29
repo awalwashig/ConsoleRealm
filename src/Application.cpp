@@ -34,18 +34,25 @@ nlohmann::json& config::GetConifg() {
 	return *m_config;
 }
 
-make_hash& make_hash::reset(){
+make_hash& make_hash::reset() {
 
 	return *this;
 }
 
-void make_hash::push(nlohmann::json message){
-
+void make_hash::push(make_link_type obj) {
+	tmp_link.push_back(obj);
 }
 
-void make_hash::check(nlohmann::json& message){
-	message[""];
+void make_hash::check(nlohmann::json& obj) {
+	for (int index = 0; index < tmp_link.size(); index++) {
+		if (tmp_link[index] != make_link_type{ obj["name"], obj["content"], obj["message_id"]}) {
+			continue;
+		}
+
+
+	}
 }
+
 
 std::string markdown::MarkdownRemove(std::string str) {
 	std::vector<std::tuple<std::string, std::string, std::string>> regexReplacements = {

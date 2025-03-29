@@ -5,6 +5,7 @@
 #include <regex>
 #include <curl/curl.h>
 #include <unordered_map>
+#include <tuple>
 
 #include <dpp/dpp.h>
 #include <twobot.hh>
@@ -22,17 +23,25 @@ private:
 	std::unique_ptr<nlohmann::json> m_config;
 };
 
+//TODO
 class make_hash {
+public:
+	using make_link_type = std::tuple<std::string, std::string, uint64_t>;
+
+	
 public:
 	make_hash() = default;
 
 	make_hash& reset();
 
-	void push(nlohmann::json message);
+	void push(make_link_type obj);
 
-	void check(nlohmann::json& message);
+	void check(nlohmann::json& obj);
 private:
-	std::unordered_map<std::string, std::string> hash_map;
+
+	std::vector<make_link_type> tmp_link;
+
+	std::unordered_map<uint64_t, std::string> hash_map;
 
 	std::unique_ptr<make_hash> m_make_hash;
 };
