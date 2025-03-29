@@ -38,6 +38,8 @@ public:
 	void push(make_link_type&& obj);
 
 	void check(make_link_type&& obj);
+
+	std::unordered_map<uint64_t, make_link_type>& get_hash_map();
 private:
 
 	std::vector<make_link_type> tmp_link;

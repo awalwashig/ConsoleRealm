@@ -61,6 +61,10 @@ void make_hash::check(make_link_type&& obj) {
 	}
 }
 
+std::unordered_map<uint64_t, make_hash::make_link_type>& make_hash::get_hash_map(){
+	return this->hash_map;
+}
+
 
 std::string markdown::MarkdownRemove(std::string str) {
 	std::vector<std::tuple<std::string, std::string, std::string>> regexReplacements = {
