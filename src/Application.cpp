@@ -478,6 +478,11 @@ Realm& Realm::reset(std::string& config) {
 	qq::reset(config::GetConifg())
 		.set_callback(discord::accept);
 
+	std::thread([&]() {
+		make_hash::reset();
+		std::this_thread::sleep_for(std::chrono::days(1));
+		}).detach();
+
 	return *this;
 }
 
