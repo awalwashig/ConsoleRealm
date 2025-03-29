@@ -22,20 +22,20 @@ private:
 	std::unique_ptr<nlohmann::json> m_config;
 };
 
-//class make_hash {
-//public:
-//	make_hash();
-//
-//	void reset();
-//
-//	void push(nlohmann::json message);
-//
-//	void update();
-//private:
-//	std::unordered_map<std::string, std::string> hash_map;
-//
-//	std::unique_ptr<make_hash> m_make_hash;
-//};
+class make_hash {
+public:
+	make_hash();
+
+	void reset();
+
+	void push(nlohmann::json message);
+
+	void update();
+private:
+	std::unordered_map<std::string, std::string> hash_map;
+
+	std::unique_ptr<make_hash> m_make_hash;
+};
 
 class markdown {
 public:
@@ -108,7 +108,7 @@ private:
 	nlohmann::json config;
 };
 
-class Realm : public config, public qq, public discord {
+class Realm : public config, public qq, public discord, public make_hash{
 public:
 	Realm() = default;
 

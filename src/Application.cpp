@@ -34,6 +34,22 @@ nlohmann::json& config::GetConifg() {
 	return *m_config;
 }
 
+make_hash::make_hash(){
+
+}
+
+void make_hash::reset(){
+
+}
+
+void make_hash::push(nlohmann::json message){
+
+}
+
+void make_hash::update(){
+
+}
+
 std::string markdown::MarkdownRemove(std::string str) {
 	std::vector<std::tuple<std::string, std::string, std::string>> regexReplacements = {
 			{ R"(\*\*([^*]+)\*\*)", "$1","(**)"},      // Markdown 加粗，如 **加粗** → 保留内部内容
