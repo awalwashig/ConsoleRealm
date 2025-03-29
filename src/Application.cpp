@@ -315,7 +315,7 @@ discord& discord::main() {
 	m_cluster->on_message_create([&](const dpp::message_create_t& event) {
 		static std::string Obj = "";
 
-		if (event.msg.channel_id != config["channel"].get<dpp::snowflake>()) {
+		if (event.msg.channel_id != config["channel"].get<dpp::snowflake>() || event.msg.author.id == m_cluster->me.id) {
 			return;
 		}
 
