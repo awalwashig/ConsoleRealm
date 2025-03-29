@@ -27,17 +27,13 @@ private:
 //TODO
 class make_hash {
 public:
-	//param = name, content, ID
-	using make_link_type = std::tuple<std::string, std::string, uint64_t>;
-
-public:
 	make_hash() = default;
 
 	make_hash& reset();
 
-	void push(make_link_type&& obj);
+	void push(uint64_t obj);
 
-	void check_to_link(uint64_t obj);
+	void check_to_link(uint64_t message_id);
 
 	void set_name_id(std::tuple<std::string, std::string> obj);
 
@@ -46,7 +42,7 @@ public:
 	std::unordered_map<std::string, std::string>& get_name_hash();
 private:
 
-	make_link_type tmp_link;
+	uint64_t tmp_link;
 
 	std::unordered_map<uint64_t, uint64_t> hash_map;
 

@@ -39,23 +39,22 @@ make_hash& make_hash::reset() {
 	return *this;
 }
 
-void make_hash::push(make_link_type&& obj) {
+void make_hash::push(uint64_t obj) {
 	tmp_link = obj;
 }
 
-void make_hash::check_to_link(uint64_t obj) {
-	auto& [obj_name, obj_content, obj_ID] = obj;
+void make_hash::check_to_link(uint64_t message_id) {
 	auto& [name, content, ID] = tmp_link;
 
 	//debug
 	std::cout << "LINK!" << std::endl;
 
 	//link
-	hash_map[ID] = obj_ID;
-	hash_map[obj_ID] = ID;
+	hash_map[ID] = message_id;
+	hash_map[message_id] = ID;
 }
 
-void make_hash::set_name_id(std::tuple<std::string, std::string> obj){
+void make_hash::set_name_id(std::tuple<std::string, std::string> obj) {
 	auto& [name, id] = obj;
 
 	//双映射
@@ -67,7 +66,7 @@ std::unordered_map<uint64_t, uint64_t>& make_hash::get_hash_map() {
 	return this->hash_map;
 }
 
-std::unordered_map<std::string, std::string>& make_hash::get_name_hash(){
+std::unordered_map<std::string, std::string>& make_hash::get_name_hash() {
 	return this->name_hash;
 }
 
@@ -198,7 +197,7 @@ qq& qq::main() {
 		//链接检测
 		if (msg.user_id == config["bot_qq_id"].get<uint64_t>()) {
 			for (auto& data : msg.raw_msg["message"]) {
-				Realm::m_instance->check_to_link({msg.raw_msg["message_id"].get<uint64_t>() });
+				Realm::m_instance->check_to_link({ msg.raw_msg["message_id"].get<uint64_t>() });
 			}
 
 			return;
@@ -308,7 +307,7 @@ discord& discord::main() {
 			return;
 		}
 
-		if (event.msg.author.is_bot() || event.msg.channel_id != config["channel"].get<dpp::snowflake>()) {
+		if (event.msg.author.is_bot()) {
 			Realm::m_instance->check_to_link({ event.msg.id });
 			return;
 		}
@@ -367,7 +366,7 @@ discord& discord::main() {
 
 		std::cout << input.dump() << std::endl;
 
-		Realm::m_instance->push({ event.msg.author.global_name,event.msg.content ,event.msg.id });
+		Realm::m_instance->push(event.msg.id);
 		callback(input);
 		});
 
