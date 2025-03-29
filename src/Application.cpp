@@ -184,6 +184,16 @@ qq& qq::main() {
 	using twobot::ApiSet;
 	using namespace twobot::Event;
 
+	m_qq->onEvent<OtherEvent>([&](const OtherEvent& event) {
+		//{"status":"ok","retcode":0,"data":{"message_id":1716356328},"message":"","wording":"","echo":null}
+
+		if (event.raw_msg["user_id"] != config["bot_qq_id"]) {
+			return;
+		}
+		Realm::m_instance->set_link(event.raw_msg["message_id"].get<uint64_t>());
+
+		});
+
 	m_qq->onEvent<GroupMsg>([&](const GroupMsg& msg) {
 		//史
 		std::cout << msg.raw_msg << std::endl;
@@ -192,10 +202,11 @@ qq& qq::main() {
 			return;
 		}
 
-		Realm::m_instance->set_link({ msg.raw_msg["message_id"].get<uint64_t>() });
+		Realm::m_instance->set_link(msg.raw_msg["message_id"].get<uint64_t>());
 
 		//链接
 		if (msg.user_id == config["bot_qq_id"].get<uint64_t>()) {
+			std::cout << "-----------" << std::endl;
 			return;
 		}
 

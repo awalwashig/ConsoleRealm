@@ -572,6 +572,15 @@ namespace twobot {
             
         };
 
+        struct OtherEvent : EventBase {
+            EventType getType() const override {
+                return { "other", "raw" };
+            }
+
+        protected:
+            virtual void parse() override;
+        };
+
         // 以 以下类为模板参数 的onEvent必须在export_functions中调用一次，才能实现模板特化导出
         struct PrivateMsg : EventBase{
             EventType getType() const override{

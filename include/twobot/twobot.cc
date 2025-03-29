@@ -76,10 +76,21 @@ namespace twobot {
 					else if (post_type == "notice")
 						sub_type = (std::string)json_payload["notice_type"];
 
-					EventType event_type = {
+					EventType event_type;
+					if (json_payload["post_type"].get<std::string>() != "message_sent") {
+						event_type = {
 						post_type,
 						sub_type
-					};
+						};
+					}
+					else {
+						std::cout << "other-raw" << std::endl;
+						event_type = {
+							"other",
+							"raw"
+						};
+					}
+					
 
 					std::cout << "event_type" << std::endl;
 
@@ -100,6 +111,9 @@ namespace twobot {
 								)
 							);
 					}
+
+
+
 				}
 				catch (const std::exception& e) {
 					std::cerr << "WebSocket CallBack Exception: " << e.what() << std::endl;
@@ -138,6 +152,8 @@ namespace twobot {
 			});
 
 		// 仅仅为了特化onEvent模板
+		instance->onEvent<Event::OtherEvent>([](const auto&) {});
+
 		instance->onEvent<Event::GroupMsg>([](const auto&) {});
 		instance->onEvent<Event::PrivateMsg>([](const auto&) {});
 		instance->onEvent<Event::EnableEvent>([](const auto&) {});
@@ -155,7 +171,15 @@ namespace twobot {
 	}
 
 	std::unique_ptr<Event::EventBase> Event::EventBase::construct(const EventType& event) {
-		if (event.post_type == "message") {
+		std::cout << "post_type" << event.post_type << std::endl;
+		std::cout << "sub_type" << event.sub_type << std::endl;
+
+		if (event.post_type == "other") {
+			if (event.sub_type == "raw") {
+				return std::unique_ptr<Event::EventBase>(new Event::OtherEvent());
+			}
+		}
+		else if (event.post_type == "message") {
 			if (event.sub_type == "group") {
 				return std::unique_ptr<Event::EventBase>(new Event::GroupMsg());
 			}
@@ -204,6 +228,10 @@ namespace twobot {
 			}
 		}
 		return nullptr;
+	}
+
+	void Event::OtherEvent::parse() {
+		std::cout << "other" << std::endl;
 	}
 
 	void Event::GroupMsg::parse() {
