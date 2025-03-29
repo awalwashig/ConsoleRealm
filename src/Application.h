@@ -5,6 +5,7 @@
 #include <regex>
 #include <curl/curl.h>
 #include <unordered_map>
+#include <unordered_set>
 #include <tuple>
 
 #include <dpp/dpp.h>
@@ -29,7 +30,6 @@ public:
 	//param = name, content, ID
 	using make_link_type = std::tuple<std::string, std::string, uint64_t>;
 
-	
 public:
 	make_hash() = default;
 
@@ -37,15 +37,21 @@ public:
 
 	void push(make_link_type&& obj);
 
-	void check(make_link_type&& obj);
+	void check_to_link(uint64_t obj);
 
-	std::unordered_map<uint64_t, make_link_type>& get_hash_map();
+	void set_name_id(std::tuple<std::string, std::string> obj);
+
+	std::unordered_map<uint64_t, uint64_t>& get_hash_map();
+
+	std::unordered_map<std::string, std::string>& get_name_hash();
 private:
 
-	std::vector<make_link_type> tmp_link;
+	make_link_type tmp_link;
 
-	std::unordered_map<uint64_t, make_link_type> hash_map;
+	std::unordered_map<uint64_t, uint64_t> hash_map;
 
+	std::unordered_map<std::string, std::string> name_hash;
+private:
 	std::unique_ptr<make_hash> m_make_hash;
 };
 

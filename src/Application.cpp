@@ -40,29 +40,35 @@ make_hash& make_hash::reset() {
 }
 
 void make_hash::push(make_link_type&& obj) {
-	tmp_link.push_back(obj);
+	tmp_link = obj;
 }
 
-void make_hash::check(make_link_type&& obj) {
+void make_hash::check_to_link(uint64_t obj) {
 	auto& [obj_name, obj_content, obj_ID] = obj;
-	for (int index = 0; index < tmp_link.size(); index++) {
-		auto& [name, content, ID] = tmp_link[index];
+	auto& [name, content, ID] = tmp_link;
 
-		if (name != obj_name || content != content) {
-			continue;
-		}
+	//debug
+	std::cout << "LINK!" << std::endl;
 
-		//debug
-		std::cout << "LINK!" << std::endl;
-
-		//link
-		hash_map[ID] = obj;
-		hash_map[obj_ID] = std::move(tmp_link[index]);
-	}
+	//link
+	hash_map[ID] = obj_ID;
+	hash_map[obj_ID] = ID;
 }
 
-std::unordered_map<uint64_t, make_hash::make_link_type>& make_hash::get_hash_map(){
+void make_hash::set_name_id(std::tuple<std::string, std::string> obj){
+	auto& [name, id] = obj;
+
+	//双映射
+	name_hash[name] = id;
+	name_hash[id] = name;
+}
+
+std::unordered_map<uint64_t, uint64_t>& make_hash::get_hash_map() {
 	return this->hash_map;
+}
+
+std::unordered_map<std::string, std::string>& make_hash::get_name_hash(){
+	return this->name_hash;
 }
 
 
@@ -189,12 +195,14 @@ qq& qq::main() {
 			return;
 		}
 
+		//链接检测
 		if (msg.user_id == config["bot_qq_id"].get<uint64_t>()) {
-			Realm::m_instance->check({ event.msg.author.global_name,event.msg.content ,event.msg.id });
+			for (auto& data : msg.raw_msg["message"]) {
+				Realm::m_instance->check_to_link({msg.raw_msg["message_id"].get<uint64_t>() });
+			}
+
 			return;
 		}
-
-		nlohmann::json input;
 
 		std::string tmp_message = "";
 		for (auto& data : msg.raw_msg["message"]) {
@@ -215,6 +223,8 @@ qq& qq::main() {
 				continue;
 			}
 		}
+
+		nlohmann::json input;
 
 		input["content"] = std::move(tmp_message);
 		input["avatar_url"] = std::string("https://q.qlogo.cn/headimg_dl?dst_uin=") + std::string(std::to_string((int)msg.user_id)) + std::string("&spec=640&img_type=jpg");
@@ -299,7 +309,7 @@ discord& discord::main() {
 		}
 
 		if (event.msg.author.is_bot() || event.msg.channel_id != config["channel"].get<dpp::snowflake>()) {
-			Realm::m_instance->check({ event.msg.author.global_name,event.msg.content ,event.msg.id });
+			Realm::m_instance->check_to_link({ event.msg.id });
 			return;
 		}
 
