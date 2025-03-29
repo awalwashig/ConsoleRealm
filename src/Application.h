@@ -35,9 +35,9 @@ public:
 
 	make_hash& reset();
 
-	void push(make_link_type obj);
+	void push(make_link_type&& obj);
 
-	void check(make_link_type& obj);
+	void check(make_link_type&& obj);
 private:
 
 	std::vector<make_link_type> tmp_link;

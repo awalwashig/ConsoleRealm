@@ -35,23 +35,25 @@ nlohmann::json& config::GetConifg() {
 }
 
 make_hash& make_hash::reset() {
-
+	m_make_hash.reset(new make_hash);
 	return *this;
 }
 
-void make_hash::push(make_link_type obj) {
+void make_hash::push(make_link_type&& obj) {
 	tmp_link.push_back(obj);
 }
 
-void make_hash::check(make_link_type& obj) {
-	auto [obj_name, obj_content, obj_ID] = obj;
-
+void make_hash::check(make_link_type&& obj) {
+	auto& [obj_name, obj_content, obj_ID] = obj;
 	for (int index = 0; index < tmp_link.size(); index++) {
 		auto& [name, content, ID] = tmp_link[index];
 
 		if (name != obj_name || content != content) {
 			continue;
 		}
+
+		//debug
+		std::cout << "LINK!" << std::endl;
 
 		//link
 		hash_map[ID] = obj;
@@ -283,7 +285,12 @@ discord& discord::main() {
 	m_cluster->on_message_create([&](const dpp::message_create_t& event) {
 		static std::string Obj = "";
 
-		if (event.msg.author.is_bot() || event.msg.channel_id != config["channel"].get<dpp::snowflake>()) {
+		if (event.msg.author.is_bot()) {
+			Realm::m_instance->check({ event.msg.author.global_name,event.msg.content ,event.msg.id });
+			return;
+		}
+
+		if (event.msg.channel_id != config["channel"].get<dpp::snowflake>()) {
 			return;
 		}
 
@@ -341,6 +348,7 @@ discord& discord::main() {
 
 		std::cout << input.dump() << std::endl;
 
+		Realm::m_instance->push({ event.msg.author.global_name,event.msg.content ,event.msg.id });
 		callback(input);
 		});
 
@@ -414,6 +422,7 @@ Realm::Realm(std::string& config) {
 
 Realm& Realm::reset(std::string& config) {
 	config::reset(config);
+	make_hash::reset();
 
 	discord::reset(config::GetConifg())
 		.set_callback(qq::accept);
