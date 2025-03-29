@@ -44,14 +44,12 @@ void make_hash::push(uint64_t obj) {
 }
 
 void make_hash::check_to_link(uint64_t message_id) {
-	auto& [name, content, ID] = tmp_link;
-
 	//debug
 	std::cout << "LINK!" << std::endl;
 
 	//link
-	hash_map[ID] = message_id;
-	hash_map[message_id] = ID;
+	hash_map[tmp_link] = message_id;
+	hash_map[message_id] = tmp_link;
 }
 
 void make_hash::set_name_id(std::tuple<std::string, std::string> obj) {
@@ -196,10 +194,7 @@ qq& qq::main() {
 
 		//链接检测
 		if (msg.user_id == config["bot_qq_id"].get<uint64_t>()) {
-			for (auto& data : msg.raw_msg["message"]) {
-				Realm::m_instance->check_to_link({ msg.raw_msg["message_id"].get<uint64_t>() });
-			}
-
+			Realm::m_instance->check_to_link({ msg.raw_msg["message_id"].get<uint64_t>() });
 			return;
 		}
 
@@ -217,8 +212,19 @@ qq& qq::main() {
 				continue;
 			}
 
-			//不用处理，webhook不能回复
+			if (data["type"] == "at") {
+				tmp_message += Realm::m_instance->get_name_hash()[data["data"]["qq"].get<std::string>()];
+
+				continue;
+			}
+
 			if (data["type"] == "reply") {
+				Realm::m_instance->get_cluster().message_create(
+					dpp::message("reply")
+					.set_channel_id(Realm::m_instance->GetConifg()["discord"]["channel"])
+					.set_reference(Realm::m_instance->get_hash_map()[std::stoull(data["data"]["id"].get<std::string>())])
+				);
+
 				continue;
 			}
 		}
@@ -234,6 +240,8 @@ qq& qq::main() {
 		else {
 			input["username"] = msg.raw_msg["sender"]["nickname"];
 		}
+
+		Realm::m_instance->push(msg.raw_msg["message_id"]);
 
 		callback(input);
 		});
@@ -287,6 +295,10 @@ discord& discord::start(dpp::start_type start) {
 	return *this;
 }
 
+dpp::cluster& discord::get_cluster(){
+	return *m_cluster;
+}
+
 void discord::set_send_flag() {
 	send_flag = 1;
 }
@@ -308,7 +320,7 @@ discord& discord::main() {
 		}
 
 		if (event.msg.author.is_bot()) {
-			Realm::m_instance->check_to_link({ event.msg.id });
+			Realm::m_instance->check_to_link(event.msg.id);
 			return;
 		}
 

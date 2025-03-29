@@ -103,6 +103,8 @@ public:
 	discord& set_callback(void(*fn)(nlohmann::json));
 
 	discord& start(dpp::start_type start);
+
+	dpp::cluster& get_cluster();
 public:
 	void set_send_flag();
 
