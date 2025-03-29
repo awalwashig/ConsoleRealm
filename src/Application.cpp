@@ -43,7 +43,7 @@ void make_hash::push(uint64_t obj) {
 	tmp_link = obj;
 }
 
-void make_hash::check_to_link(uint64_t message_id) {
+void make_hash::set_link(uint64_t message_id) {
 	//debug
 	std::cout << "LINK!" << std::endl;
 
@@ -192,9 +192,10 @@ qq& qq::main() {
 			return;
 		}
 
-		//链接检测
+		Realm::m_instance->set_link({ msg.raw_msg["message_id"].get<uint64_t>() });
+
+		//链接
 		if (msg.user_id == config["bot_qq_id"].get<uint64_t>()) {
-			Realm::m_instance->check_to_link({ msg.raw_msg["message_id"].get<uint64_t>() });
 			return;
 		}
 
@@ -319,8 +320,9 @@ discord& discord::main() {
 			return;
 		}
 
+		Realm::m_instance->set_link(event.msg.id);
+
 		if (event.msg.author.is_bot()) {
-			Realm::m_instance->check_to_link(event.msg.id);
 			return;
 		}
 
@@ -350,13 +352,9 @@ discord& discord::main() {
 			}},
 			{"type", "reply"}
 			};
-
 			res["data"]["id"] = std::to_string(Realm::m_instance->get_hash_map()[event.msg.message_reference.message_id]);
-
 			input["message"].push_back(std::move(res));
 		}
-
-		//@
 
 		//附件
 		for (auto& obj : event.msg.attachments) {

@@ -33,7 +33,7 @@ public:
 
 	void push(uint64_t obj);
 
-	void check_to_link(uint64_t message_id);
+	void set_link(uint64_t message_id);
 
 	void set_name_id(std::tuple<std::string, std::string> obj);
 
