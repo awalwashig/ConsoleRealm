@@ -24,13 +24,13 @@ private:
 
 class make_hash {
 public:
-	make_hash();
+	make_hash() = default;
 
-	void reset();
+	make_hash& reset();
 
 	void push(nlohmann::json message);
 
-	void update();
+	void check(nlohmann::json& message);
 private:
 	std::unordered_map<std::string, std::string> hash_map;
 
@@ -108,7 +108,7 @@ private:
 	nlohmann::json config;
 };
 
-class Realm : public config, public qq, public discord, public make_hash{
+class Realm : public config, public qq, public discord, public make_hash {
 public:
 	Realm() = default;
 

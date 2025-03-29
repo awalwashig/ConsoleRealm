@@ -34,20 +34,17 @@ nlohmann::json& config::GetConifg() {
 	return *m_config;
 }
 
-make_hash::make_hash(){
+make_hash& make_hash::reset(){
 
-}
-
-void make_hash::reset(){
-
+	return *this;
 }
 
 void make_hash::push(nlohmann::json message){
 
 }
 
-void make_hash::update(){
-
+void make_hash::check(nlohmann::json& message){
+	message[""];
 }
 
 std::string markdown::MarkdownRemove(std::string str) {
