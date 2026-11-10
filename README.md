@@ -35,9 +35,9 @@
 ```
 
 ## build
-
+不能编译（，没包括文件最好是下个vs2022（bushi)或者等我搓完docker
 ```bash
-g++ -std=c++20 \ -Iinclude -Iinclude/twobot -Iinclude/twobot/include \ src/Application.cpp include/twobot/twobot.cc include/twobot/apiset.cc \ -o twobot -O2 -Wall -Wextra -pthread -ldpp -lcurl -lssl -lcrypto
+g++ Application.cpp Application.h -std=c++20 -l"dpp" -l"pthread" -l"curl"
 ```
 
 docker（还没搓好）
