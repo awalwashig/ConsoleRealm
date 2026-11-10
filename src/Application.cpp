@@ -135,8 +135,8 @@ void utility::get_http(nlohmann::json &jsonDate, std::string url) {
 qq &qq::reset(nlohmann::json &config) {
   this->config = config["qq"];
 
+  std::unique_ptr<twobot::BotInstance> m_qq;
   m_qq = twobot::BotInstance::createInstance(twobot::Config {
-    std::unique_ptr<twobot::BotInstance> m_qq;
     this->config["ip"], this->config["http"], this->config["ws"],
         this->config["token"]
   });
